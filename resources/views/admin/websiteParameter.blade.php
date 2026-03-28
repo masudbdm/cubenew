@@ -583,7 +583,7 @@
                                 <div class="card-body">
 
                                     <div class="form-group">
-                                        <label class="mb-2"><b>Homepage Featured Team Member</b></label><br>
+                                        <label class="mb-2"><b>Homepage Featured Project</b></label><br>
 
                                         <div class="form-check">
                                             <input
@@ -596,7 +596,7 @@
                                             >
 
                                             <label class="form-check-label" for="front_team_show">
-                                                Featured Team Members Show (Max 4)
+                                                Featured Projects Show (Max 4)
                                             </label>
                                         </div>
                                     </div>
