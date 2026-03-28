@@ -404,15 +404,15 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group {{ $errors->has('twitter_url') ? ' has-error' : '' }}">
-                                        <label for="twitter_url" class="  control-label">Twitter Url</label>
+                                    <div class="form-group {{ $errors->has('linkedin_url') ? ' has-error' : '' }}">
+                                        <label for="linkedin_url" class="  control-label">Linkedin Url</label>
 
-                                        <input type="text" name="twitter_url" class="form-control"
-                                        value="{{ old('twitter_url') ?: $post->twitter_url ?? '' }}" id="twitter_url"
+                                        <input type="text" name="linkedin_url" class="form-control"
+                                        value="{{ old('linkedin_url') ?: $post->twitter_url ?? '' }}" id="linkedin_url"
                                         placeholder="Twitter url" autocomplete="off">
-                                        @if ($errors->has('twitter_url'))
+                                        @if ($errors->has('linkedin_url'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('twitter_url') }}</strong>
+                                            <strong>{{ $errors->first('linkedin_url') }}</strong>
                                         </span>
                                         @endif
                                     </div>

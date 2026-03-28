@@ -92,7 +92,7 @@ class AdminDashboardController extends Controller
         $post->contact_mobile = $request->contact_mobile;
         $post->whatsapp_number = $request->whatsapp_number;
         $post->contact_email = $request->contact_email;
-        $post->twitter_url = $request->twitter_url;
+        $post->twitter_url = $request->linkedin_url;
         $post->primary_color   = $request->primary_color;
         $post->secondary_color = $request->secondary_color;
         $post->hero_type = $request->hero_type;

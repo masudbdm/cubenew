@@ -19,7 +19,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link pe-1" href="{{ url($websiteParameter->twitter_url) }}" target="_blank">
-                                <i class="fab fa-twitter text-lg opacity-8"></i>
+                                <i class="fab fa-linkedin text-lg opacity-8"></i>
                             </a>
                         </li>
 
@@ -131,9 +131,9 @@
                 <div class="col-md-6  col-12 order-md-3 order-2">
                     
                     <div class="text-center">
-                        <a href="{{ url($websiteParameter->twitter_url) }}" class="btn btn-twitter mb-2 me-2 btn-sm"
+                        <a href="{{ url($websiteParameter->twitter_url) }}" class="btn btn-linkedin mb-2 me-2 btn-sm"
                         target="_blank">
-                        <i class="fab fa-twitter me-1"></i> Tweet
+                        <i class="fab fa-linkedin me-1"></i> Linkedin
                     </a>
                     <a href="{{ url($websiteParameter->fb_page_link) }}"
                         class="btn btn-facebook mb-2 me-2 btn-sm" target="_blank">
