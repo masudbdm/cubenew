@@ -1,47 +1,54 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+@section('title', __('Reset password'))
+
+@section('auth_brand_text')
+    {{ __('Forgot your password? We will send you a secure link to choose a new one.') }}
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+    <a href="{{ route('login') }}" class="auth-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        {{ __('Back to sign in') }}
+    </a>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+    <h2>{{ __('Reset password') }}</h2>
+    <p class="auth-sub">{{ __('Enter your email address and we will send you a link to set a new password.') }}</p>
 
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
+    @if (session('status'))
+        <div class="alert alert-success alert-auth" role="alert">{{ session('status') }}</div>
+    @endif
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+    <form method="POST" action="{{ route('password.email') }}" novalidate>
+        @csrf
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="auth-field auth-field--bottom-gap">
+            <label for="email">{{ __('Email') }}</label>
+            <div class="auth-input-wrap">
+                <svg class="auth-input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="you@example.com"
+                    required
+                    autocomplete="email"
+                    autofocus
+                    class="@error('email') is-invalid @enderror"
+                    aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}"
+                >
             </div>
+            @error('email')
+                <span class="invalid-feedback text-danger" role="alert">{{ $message }}</span>
+            @enderror
         </div>
+
+        <button type="submit" class="auth-submit">{{ __('Send reset link') }}</button>
+    </form>
+
+    <div class="auth-footer">
+        {{ __('Remember your password?') }}
+        <a href="{{ route('login') }}">{{ __('Sign in') }}</a>
     </div>
-</div>
 @endsection

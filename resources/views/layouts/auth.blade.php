@@ -138,6 +138,9 @@
         .auth-field {
             margin-bottom: 1rem;
         }
+        .auth-field--bottom-gap {
+            margin-bottom: 1.35rem;
+        }
         .auth-field label {
             display: block;
             font-size: 0.8125rem;
@@ -148,7 +151,7 @@
         .auth-input-wrap {
             position: relative;
         }
-        .auth-input-wrap svg {
+        .auth-input-wrap .auth-input-icon {
             position: absolute;
             left: 0.875rem;
             top: 50%;
@@ -168,6 +171,49 @@
             color: #0f172a;
             transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
+        .auth-input-wrap--password input {
+            padding-right: 2.75rem;
+        }
+        .auth-toggle-password {
+            position: absolute;
+            right: 0.35rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2.35rem;
+            height: 2.35rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: none;
+            background: transparent;
+            border-radius: 0.5rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .auth-toggle-password:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+        .auth-toggle-password:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.45);
+        }
+        .auth-toggle-password svg {
+            width: 1.2rem;
+            height: 1.2rem;
+            flex-shrink: 0;
+        }
+        .auth-toggle-password .auth-toggle-hide {
+            display: none;
+        }
+        .auth-toggle-password.is-visible .auth-toggle-show {
+            display: none;
+        }
+        .auth-toggle-password.is-visible .auth-toggle-hide {
+            display: block;
+        }
         .auth-input-wrap input:focus {
             outline: none;
             border-color: var(--auth-accent);
@@ -177,37 +223,21 @@
         .auth-input-wrap input::placeholder {
             color: #94a3b8;
         }
-        .auth-remember {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+        .auth-input-wrap input[readonly] {
+            background: #f1f5f9;
+            color: #475569;
+            cursor: default;
+        }
+        .auth-intro {
+            color: var(--auth-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
             margin-bottom: 1.25rem;
         }
-        .auth-remember .form-check {
-            margin: 0;
-            padding-left: 0;
+        .auth-forgot-row {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .auth-remember .form-check-input {
-            width: 1.1rem;
-            height: 1.1rem;
-            margin: 0;
-            border-radius: 0.35rem;
-            border-color: #cbd5e1;
-            cursor: pointer;
-        }
-        .auth-remember .form-check-input:checked {
-            background-color: #0ea5e9;
-            border-color: #0ea5e9;
-        }
-        .auth-remember .form-check-label {
-            font-size: 0.875rem;
-            color: #475569;
-            cursor: pointer;
+            justify-content: flex-end;
+            margin-bottom: 1.25rem;
         }
         .auth-forgot {
             font-size: 0.875rem;
@@ -291,7 +321,11 @@
     <div class="auth-shell">
         <aside class="auth-brand" aria-hidden="true">
             <h1>{{ config('app.name', 'Laravel') }}</h1>
-            <p>{{ __('Sign in to continue. Your session stays secure on every device.') }}</p>
+            @hasSection('auth_brand_text')
+                <p>@yield('auth_brand_text')</p>
+            @else
+                <p>{{ __('Sign in to continue. Your session stays secure on every device.') }}</p>
+            @endif
             <div class="auth-brand-dots"><span></span><span></span><span></span></div>
         </aside>
         <div class="auth-panel">
@@ -301,6 +335,20 @@
         </div>
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script>
+    document.querySelectorAll('[data-auth-toggle-password]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var wrap = btn.closest('.auth-input-wrap');
+            var input = wrap && wrap.querySelector('input');
+            if (!input || input.type === 'hidden') return;
+            var show = input.type !== 'text';
+            input.type = show ? 'text' : 'password';
+            btn.classList.toggle('is-visible', show);
+            btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+            btn.setAttribute('aria-label', show ? btn.getAttribute('data-label-hide') : btn.getAttribute('data-label-show'));
+        });
+    });
+    </script>
     @stack('scripts')
 </body>
 </html>

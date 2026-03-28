@@ -17,11 +17,12 @@
 
     <form method="POST" action="{{ route('login') }}" novalidate>
         @csrf
+        <input type="hidden" name="remember" value="1">
 
         <div class="auth-field">
             <label for="email">{{ __('Email') }}</label>
             <div class="auth-input-wrap">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <svg class="auth-input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 <input
                     id="email"
                     type="email"
@@ -40,10 +41,10 @@
             @enderror
         </div>
 
-        <div class="auth-field">
+        <div class="auth-field @if (! Route::has('password.request')) auth-field--bottom-gap @endif">
             <label for="password">{{ __('Password') }}</label>
-            <div class="auth-input-wrap">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <div class="auth-input-wrap auth-input-wrap--password">
+                <svg class="auth-input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 <input
                     id="password"
                     type="password"
@@ -54,21 +55,18 @@
                     class="@error('password') is-invalid @enderror"
                     aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
                 >
+                @include('auth.partials.password-toggle')
             </div>
             @error('password')
                 <span class="invalid-feedback text-danger" role="alert">{{ $message }}</span>
             @enderror
         </div>
 
-        <div class="auth-remember">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                <label class="form-check-label" for="remember">{{ __('Remember me') }}</label>
-            </div>
-            @if (Route::has('password.request'))
+        @if (Route::has('password.request'))
+            <div class="auth-forgot-row">
                 <a class="auth-forgot" href="{{ route('password.request') }}">{{ __('Forgot password?') }}</a>
-            @endif
-        </div>
+            </div>
+        @endif
 
         <button type="submit" class="auth-submit">{{ __('Sign in') }}</button>
     </form>

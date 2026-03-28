@@ -1,49 +1,51 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+@section('title', __('Confirm password'))
+
+@section('auth_brand_text')
+    {{ __('For your security, please confirm your password before continuing.') }}
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
+    <a href="{{ url('/') }}" class="auth-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        {{ __('Back to site') }}
+    </a>
 
-                <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
+    <h2>{{ __('Confirm password') }}</h2>
+    <p class="auth-intro">{{ __('Please enter your password to continue to this protected area.') }}</p>
 
-                    <form method="POST" action="{{ route('password.confirm') }}">
-                        @csrf
+    <form method="POST" action="{{ route('password.confirm') }}" novalidate>
+        @csrf
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Confirm Password') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="auth-field auth-field--bottom-gap">
+            <label for="password">{{ __('Password') }}</label>
+            <div class="auth-input-wrap auth-input-wrap--password">
+                <svg class="auth-input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="••••••••"
+                    required
+                    autocomplete="current-password"
+                    autofocus
+                    class="@error('password') is-invalid @enderror"
+                    aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
+                >
+                @include('auth.partials.password-toggle')
             </div>
+            @error('password')
+                <span class="invalid-feedback text-danger" role="alert">{{ $message }}</span>
+            @enderror
         </div>
-    </div>
-</div>
+
+        <button type="submit" class="auth-submit">{{ __('Confirm') }}</button>
+    </form>
+
+    @if (Route::has('password.request'))
+        <div class="auth-footer">
+            <a href="{{ route('password.request') }}">{{ __('Forgot password?') }}</a>
+        </div>
+    @endif
 @endsection
