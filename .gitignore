@@ -1,0 +1,27 @@
+# Laravel default
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+.env
+.env.backup
+.phpunit.result.cache
+
+# Docker / Homestead
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+
+# Logs & errors
+npm-debug.log
+yarn-error.log
+*.log
+
+# IDE / Editor
+/.idea
+/.vscode
+
+# OS / Temp
+*.zip
+.DS_Store
