@@ -89,6 +89,8 @@ class AdminDashboardController extends Controller
         $post->fb_page_link = $request->fb_url;
         $post->fb_page_code = $request->fb_page_code;
         $post->youtube_url = $request->youtube_url;
+        $post->customer_review_link = $request->customer_review_link;
+        $post->landowner_review_link = $request->landowner_review_link;
         $post->contact_mobile = $request->contact_mobile;
         $post->whatsapp_number = $request->whatsapp_number;
         $post->contact_email = $request->contact_email;

@@ -429,6 +429,32 @@
                                         </span>
                                         @endif
                                     </div>
+
+                                    <div class="form-group {{ $errors->has('customer_review_link') ? ' has-error' : '' }}">
+                                        <label for="customer_review_link" class="control-label">Customer review link</label>
+
+                                        <input type="text" name="customer_review_link" class="form-control"
+                                        value="{{ old('customer_review_link') ?: $post->customer_review_link ?? '' }}" id="customer_review_link"
+                                        placeholder="https://..." autocomplete="off">
+                                        @if ($errors->has('customer_review_link'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('customer_review_link') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group {{ $errors->has('landowner_review_link') ? ' has-error' : '' }}">
+                                        <label for="landowner_review_link" class="control-label">Landowner review link</label>
+
+                                        <input type="text" name="landowner_review_link" class="form-control"
+                                        value="{{ old('landowner_review_link') ?: $post->landowner_review_link ?? '' }}" id="landowner_review_link"
+                                        placeholder="https://..." autocomplete="off">
+                                        @if ($errors->has('landowner_review_link'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('landowner_review_link') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
                                     {{-- <div class="form-group ">
                                         <label for="news_editions" class=" control-label">News Editions</label> <br>
                                         <?php

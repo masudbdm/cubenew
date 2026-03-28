@@ -914,6 +914,22 @@ rel="stylesheet">
             </div>
             <div class="col-12 col-md-8 mt-4 mt-md-0">
     <div class="row g-4">
+    @php
+        $customerLinkRaw = $websiteParameter->customer_review_link ?? '';
+        $landownerLinkRaw = $websiteParameter->landowner_review_link ?? '';
+        $customerHref = filled($customerLinkRaw)
+            ? (\Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://'])
+                ? trim($customerLinkRaw)
+                : url(trim($customerLinkRaw)))
+            : route('customerReviews');
+        $landownerHref = filled($landownerLinkRaw)
+            ? (\Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://'])
+                ? trim($landownerLinkRaw)
+                : url(trim($landownerLinkRaw)))
+            : route('landownerReviews');
+        $customerExternal = filled($customerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://']);
+        $landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://']);
+    @endphp
 
     <!-- Customer Reviews -->
     <div class="col-12">
@@ -930,7 +946,7 @@ rel="stylesheet">
                     delivering excellence.
                 </p>
 
-                <a href="{{ route('customerReviews') }}" class="review-btn primary">
+                <a href="{{ $customerHref }}" class="review-btn primary" @if ($customerExternal) target="_blank" rel="noopener noreferrer" @endif>
                     View Customer Reviews
                 </a>
             </div>
@@ -951,7 +967,7 @@ rel="stylesheet">
                     from transparent agreements to successful project delivery.
                 </p>
 
-                <a href="{{ route('landownerReviews') }}" class="review-btn secondary">
+                <a href="{{ $landownerHref }}" class="review-btn secondary" @if ($landownerExternal) target="_blank" rel="noopener noreferrer" @endif>
                     View Landowner Reviews
                 </a>
             </div>
