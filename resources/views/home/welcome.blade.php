@@ -1192,7 +1192,7 @@ rel="stylesheet">
 
                         <div class="featured-image-wrapper flex-grow-1 w-100">
                             <img 
-                                src="{{ route('imagecache', ['template' => 'cpmd', 'filename' => $featured->fi()]) }}"
+                                src="{{ route('imagecache', ['template' => 'pfilg', 'filename' => $featured->fi()]) }}"
                                 class="featured-hero-img img-fluid w-100"
                                 alt="{{ Str::limit(strip_tags($featured->title), 120) }}"
                                 loading="lazy"
@@ -1226,7 +1226,7 @@ rel="stylesheet">
                         <div class="small-post__thumb flex-shrink-0">
                             <a href="{{ route('user.postDetails', [$post,Str::slug($post->title)]) }}" class="d-block h-100">
                                 <img 
-                                    src="{{ route('imagecache', ['template' => 'ppmd', 'filename' => $post->fi()]) }}"
+                                    src="{{ route('imagecache', ['template' => 'pfilg', 'filename' => $post->fi()]) }}"
                                     alt="{{ Str::limit(strip_tags($post->title), 100) }}"
                                     loading="lazy"
                                     decoding="async">
