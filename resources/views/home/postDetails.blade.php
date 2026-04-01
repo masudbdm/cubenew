@@ -540,6 +540,21 @@ margin-top:14px;
 </style>
 @endpush
 
+@push('css')
+<style>
+    .hp-field{
+        position:absolute !important;
+        left:-10000px !important;
+        top:auto !important;
+        width:1px !important;
+        height:1px !important;
+        overflow:hidden !important;
+        opacity:0 !important;
+        pointer-events:none !important;
+    }
+</style>
+@endpush
+
 @section('content')
 
 <section class="py-5">
@@ -749,8 +764,10 @@ margin-top:14px;
 
     @csrf
 
-<div style="display:none">
-    <input type="text" name="website" tabindex="-1" autocomplete="off">
+<div class="hp-field" aria-hidden="true">
+    <input type="text" name="website" tabindex="-1" autocomplete="off" value="">
+    <input type="text" name="company_name" tabindex="-1" autocomplete="off" value="">
+    <input type="hidden" name="hp_time" value="{{ now()->timestamp }}">
 </div>
 
 <input type="hidden" name="post_id" value="{{ $post->id }}">

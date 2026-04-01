@@ -269,8 +269,15 @@ public function information(Request $request)
 {
  
     // Honeypot spam check
-    if ($request->filled('website')) {
+    if ($request->filled('website') || $request->filled('company_name')) {
         abort(403, 'Spam detected');
+    }
+    if ($request->filled('hp_time')) {
+        $t = (int) $request->input('hp_time');
+        // If submitted unrealistically fast (bot), block. Keep threshold low to avoid false positives.
+        if ($t > 0 && (time() - $t) < 2) {
+            abort(403, 'Spam detected');
+        }
     }
 
     /**

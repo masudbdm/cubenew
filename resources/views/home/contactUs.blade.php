@@ -88,9 +88,10 @@
                         <form method="POST" action="{{ route('user.information') }}" autocomplete="off">
                             @csrf
 
-                  
-                            <div style="display:none">
-                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            <div class="hp-field" aria-hidden="true">
+                                <input type="text" name="website" tabindex="-1" autocomplete="off" value="">
+                                <input type="text" name="company_name" tabindex="-1" autocomplete="off" value="">
+                                <input type="hidden" name="hp_time" value="{{ now()->timestamp }}">
                             </div>
 
                             <div class="mb-3">
@@ -150,4 +151,19 @@
 @endsection
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
+
+@push('css')
+<style>
+    .hp-field{
+        position:absolute !important;
+        left:-10000px !important;
+        top:auto !important;
+        width:1px !important;
+        height:1px !important;
+        overflow:hidden !important;
+        opacity:0 !important;
+        pointer-events:none !important;
+    }
+</style>
 @endpush
