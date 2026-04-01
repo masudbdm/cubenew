@@ -97,6 +97,21 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('seo.sitemap') }}">
+                                Sitemap (XML)
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('seo.llmsTxt') }}">
+                                LLMs.txt
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('seo.aiSitemap') }}">
+                                AI content map
+                            </a>
+                        </li>
 
                         @foreach($menusForAll as $mnu)
 

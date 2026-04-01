@@ -312,3 +312,22 @@ function smsUrl($to, $msg)
     //http://stackoverflow.com/questions/19133020/using-models-on-packages
     //http://kaltencoder.com/2015/07/laravel-5-package-creation-tutorial-part-1/
     //http://laravel-recipes.com/recipes/50/creating-a-helpers-file
+
+/**
+ * Absolute URL for SEO / Open Graph (handles relative paths from asset()).
+ */
+function seo_full_url(?string $url): string
+{
+    if ($url === null || $url === '') {
+        return '';
+    }
+    $url = trim($url);
+    if (Str::startsWith($url, ['http://', 'https://'])) {
+        return $url;
+    }
+    if (Str::startsWith($url, '//')) {
+        return 'https:'.$url;
+    }
+
+    return rtrim(config('app.url'), '/').'/'.ltrim($url, '/');
+}

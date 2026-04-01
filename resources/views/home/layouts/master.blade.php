@@ -19,7 +19,17 @@
     {{-- Meta Description (SEO) --}}
     <meta name="description"
           content="{{ $websiteParameter->meta_description }}">
+    @if(filled($websiteParameter->meta_keyword ?? null))
+    <meta name="keywords" content="{{ strip_tags($websiteParameter->meta_keyword) }}">
+    @endif
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="{{ url()->current() }}">
+    @stack('meta')
+
 {{-- Open Graph Meta --}}
+    @php
+        $defaultOgImage = seo_full_url(asset($websiteParameter->logo()));
+    @endphp
     <meta property="og:type" content="{{ isset($post) ? 'article' : 'website' }}">
     <meta property="og:site_name" content="{{ $websiteParameter->title }}">
     <meta property="og:title"
@@ -30,7 +40,7 @@
               : $websiteParameter->meta_description }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image"
-          content="{{  asset($websiteParameter->logo()) }}">
+          content="{{ $defaultOgImage }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
@@ -44,8 +54,28 @@
               ? Str::limit(strip_tags($post->description), 160)
               : $websiteParameter->meta_description }}">
     <meta name="twitter:image"
-          content="{{ asset($websiteParameter->logo()) }}">
+          content="{{ $defaultOgImage }}">
 
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'Organization',
+                'name' => strip_tags($websiteParameter->h1 ?? $websiteParameter->title),
+                'url' => url('/'),
+                'logo' => $defaultOgImage,
+                'description' => Str::limit(strip_tags($websiteParameter->meta_description ?? ''), 320),
+            ],
+            [
+                '@type' => 'WebSite',
+                'name' => strip_tags($websiteParameter->title),
+                'url' => url('/'),
+                'publisher' => ['@type' => 'Organization', 'name' => strip_tags($websiteParameter->h1 ?? $websiteParameter->title)],
+            ],
+        ],
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+    </script>
 
       @if($websiteParameter->google_analytics_code)
 

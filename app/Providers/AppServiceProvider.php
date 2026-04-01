@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Menu;
+use App\Models\Page;
 use App\Models\Post;
+use App\Models\SubCategory;
+use App\Models\Team;
 use App\Models\WebsiteParameter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -48,5 +51,14 @@ class AppServiceProvider extends ServiceProvider
             'postsRightSidebar' => $postsRightSidebar,
             'websiteParameter'  => $websiteParameter,
         ]);
+
+        $forgetSeoCatalog = function () {
+            Cache::forget('seo.catalog.v1');
+        };
+        Post::saved($forgetSeoCatalog);
+        Page::saved($forgetSeoCatalog);
+        Category::saved($forgetSeoCatalog);
+        SubCategory::saved($forgetSeoCatalog);
+        Team::saved($forgetSeoCatalog);
     }
 }

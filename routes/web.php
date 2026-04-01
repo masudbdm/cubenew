@@ -13,6 +13,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SslCommerzController;
+use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -32,6 +33,11 @@ use Illuminate\Support\Facades\Crypt;
 
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('user.welcome');
+
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('seo.sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('seo.robots');
+Route::get('/llms.txt', [SeoController::class, 'llmsTxt'])->name('seo.llmsTxt');
+Route::get('/ai-sitemap.json', [SeoController::class, 'aiSitemap'])->name('seo.aiSitemap');
 Route::get('/categories', [WelcomeController::class, 'categories'])->name('user.categories');
 Route::get('/category-details/{category}', [WelcomeController::class, 'categoryDetails'])->name('user.categoryDetails');
 

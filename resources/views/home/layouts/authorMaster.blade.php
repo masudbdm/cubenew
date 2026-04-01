@@ -55,7 +55,7 @@
     <meta property="og:title" content="{{ strip_tags($metaTitle) }}">
     <meta property="og:description" content="{{ strip_tags($metaDescription) }}">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ $metaImage }}">
+    <meta property="og:image" content="{{ seo_full_url($metaImage) }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
@@ -64,7 +64,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ strip_tags($metaTitle) }}">
     <meta name="twitter:description" content="{{ strip_tags($metaDescription) }}">
-    <meta name="twitter:image" content="{{ $metaImage }}">
+    <meta name="twitter:image" content="{{ seo_full_url($metaImage) }}">
 
     {{-- ===== Favicon ===== --}}
     <link rel="icon" type="image/png" href="{{ asset($websiteParameter->favIcon()) }}">
