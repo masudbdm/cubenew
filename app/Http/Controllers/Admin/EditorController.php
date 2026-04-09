@@ -13,6 +13,7 @@ use App\Models\DonationApplication;
 use App\Models\PostSubcategory;
 use App\Models\Tag;
 use App\Models\WebsiteParameter;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 // use Validator;
 // use Auth;
@@ -86,7 +87,12 @@ class EditorController extends Controller
                 // 'excerpt' => 'max:254|required',
                 // 'feature_image' => 'image|dimensions:min_with=310,min_height=200,ratio=3/2'
                 'feature_image' => 'image|dimensions:min_with=310,min_height=200',
-                'brochure_file' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240'
+                'brochure_file' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
+                'number_of_bedrooms' => 'nullable|string|max:255',
+                'rajuk_approval_number' => 'nullable|string|max:255',
+                'engineer_name' => 'nullable|string|max:255',
+                'post_images' => 'nullable|array|max:24',
+                'post_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:8192'
                 // 'feature_image' => 'required'
             ]
         );
@@ -169,6 +175,9 @@ class EditorController extends Controller
         $post->size = $request->size ?? null;
         $post->basements = $request->basements ?? null;
         $post->no_of_car_parking = $request->no_of_car_parking ?? null;
+        $post->number_of_bedrooms = $request->number_of_bedrooms ?? null;
+        $post->rajuk_approval_number = $request->rajuk_approval_number ?? null;
+        $post->engineer_name = $request->engineer_name ?? null;
         $post->address = $request->address ?? null;
         $post->yt_video_code = $request->yt_video_code ?? null;
         $post->lat = $request->lat ?? null;
@@ -218,6 +227,21 @@ class EditorController extends Controller
 
 
         $post->save();
+
+        if ($request->hasFile('post_images')) {
+            $i = 0;
+            foreach ($request->file('post_images') as $img) {
+                if (!$img) continue;
+                $ext = strtolower($img->getClientOriginalExtension());
+                $name = 'post_'.$post->id.'_'.time().'_'.(++$i).'.'.$ext;
+                $path = $img->storeAs('media/post-images', $name, 'public');
+                PostImage::create([
+                    'post_id' => $post->id,
+                    'image_path' => $path,
+                    'sort_order' => (int) $post->images()->max('sort_order') + 1,
+                ]);
+            }
+        }
         $post->categories()->detach();
         if ($request->categories) {
             foreach ($request->categories as $cat) {
@@ -278,6 +302,16 @@ class EditorController extends Controller
     }
     public function updtePost(Post $post, Request $request)
     {
+        $request->validate([
+            'number_of_bedrooms' => 'nullable|string|max:255',
+            'rajuk_approval_number' => 'nullable|string|max:255',
+            'engineer_name' => 'nullable|string|max:255',
+            'post_images' => 'nullable|array|max:24',
+            'post_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:8192',
+            'remove_post_image_ids' => 'nullable|array',
+            'remove_post_image_ids.*' => 'integer',
+            'post_image_meta' => 'nullable|array',
+        ]);
 
         $web_editons = explode(',', WebsiteParameter::first()->news_editions);
 
@@ -346,6 +380,9 @@ class EditorController extends Controller
         $post->size = $request->size ?? null;
         $post->basements = $request->basements ?? null;
         $post->no_of_car_parking = $request->no_of_car_parking ?? null;
+        $post->number_of_bedrooms = $request->number_of_bedrooms ?? null;
+        $post->rajuk_approval_number = $request->rajuk_approval_number ?? null;
+        $post->engineer_name = $request->engineer_name ?? null;
         $post->address = $request->address ?? null;
         $post->yt_video_code = $request->yt_video_code ?? null;
         $post->lat = $request->lat ?? null;
@@ -396,6 +433,46 @@ class EditorController extends Controller
 
         
         $post->save();
+
+        // Update meta (description + sort order)
+        if ($request->filled('post_image_meta')) {
+            $meta = (array) $request->input('post_image_meta');
+            foreach ($meta as $id => $row) {
+                $id = (int) $id;
+                $img = PostImage::where('post_id', $post->id)->where('id', $id)->first();
+                if (!$img) continue;
+                $img->description = isset($row['description']) ? trim((string) $row['description']) : null;
+                $img->sort_order = isset($row['sort_order']) ? (int) $row['sort_order'] : $img->sort_order;
+                $img->save();
+            }
+        }
+
+        if ($request->filled('remove_post_image_ids')) {
+            $ids = array_map('intval', (array) $request->input('remove_post_image_ids'));
+            $imgs = PostImage::where('post_id', $post->id)->whereIn('id', $ids)->get();
+            foreach ($imgs as $img) {
+                if ($img->image_path && Storage::disk('public')->exists($img->image_path)) {
+                    Storage::disk('public')->delete($img->image_path);
+                }
+                $img->delete();
+            }
+        }
+
+        if ($request->hasFile('post_images')) {
+            $i = 0;
+            $startOrder = (int) ($post->images()->max('sort_order') ?? 0);
+            foreach ($request->file('post_images') as $img) {
+                if (!$img) continue;
+                $ext = strtolower($img->getClientOriginalExtension());
+                $name = 'post_'.$post->id.'_'.time().'_'.(++$i).'.'.$ext;
+                $path = $img->storeAs('media/post-images', $name, 'public');
+                PostImage::create([
+                    'post_id' => $post->id,
+                    'image_path' => $path,
+                    'sort_order' => $startOrder + $i,
+                ]);
+            }
+        }
         $post->categories()->detach();
         if ($request->categories) {
             foreach ($request->categories as $cat) {

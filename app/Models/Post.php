@@ -9,6 +9,7 @@ use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Spatie\Translatable\HasTranslations as BaseHasTranslations;
 use Spatie\Translatable\HasTranslations;
 use App\Models\PostCategory;
+use App\Models\PostImage;
 
 class Post extends Model
 {
@@ -87,5 +88,15 @@ class Post extends Model
     public function location()
     {
         return $this->belongsTo(ProjectLocation::class, 'project_location_id');
+    }
+
+    public function imageGallery()
+    {
+        return $this->belongsTo(ImageGallery::class, 'image_gallery_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(PostImage::class)->orderBy('sort_order')->orderBy('id');
     }
 }

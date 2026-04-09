@@ -232,7 +232,7 @@
                             <a href="{{ route('admin.allPost') }}"
                                 class="nav-link {{ session('lsbsm') == 'allPost' ? ' active ' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Alll Posts') }}</p>
+                                <p>{{ __('All Posts') }}</p>
                             </a>
                         </li>
                     </ul>
@@ -302,7 +302,7 @@
                             <a href="{{ route('admin.contactUs') }}"
                                 class="nav-link {{ session('lsbsm') == 'custommer_message' ? ' active ' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Custommer message') }}</p>
+                                <p>{{ __('Customer message') }}</p>
                             </a>
                         </li>
                     </ul>

@@ -306,3 +306,8 @@ Route::get('/cache', function () {
     return redirect()->route('user.welcome');
 });
 
+// Route::get('/run-migrate', function () {
+    //     \Artisan::call('migrate', ['--force' => true]);
+    //     return 'Migration done';
+    // });
+

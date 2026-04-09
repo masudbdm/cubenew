@@ -307,6 +307,30 @@
 
     <div class="col-md-6">
         <div class="form-group">
+            <label for="number_of_bedrooms">Number of Bedrooms</label>
+            <input type="text" name="number_of_bedrooms" class="form-control"
+                value="{{ old('number_of_bedrooms', $post->number_of_bedrooms) }}" placeholder="Enter Number of Bedrooms">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="rajuk_approval_number">Rajuk Approval Number</label>
+            <input type="text" name="rajuk_approval_number" class="form-control"
+                value="{{ old('rajuk_approval_number', $post->rajuk_approval_number) }}" placeholder="Enter Rajuk Approval Number">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="engineer_name">Engineer Name</label>
+            <input type="text" name="engineer_name" class="form-control"
+                value="{{ old('engineer_name', $post->engineer_name) }}" placeholder="Enter Engineer Name">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
             <label for="address">Address</label>
             <input type="text" name="address" class="form-control"
                 value="{{ old('address', $post->address) }}" placeholder="Enter Address">
@@ -345,6 +369,19 @@
         <div class="form-group">
             <label for="lng">Google Map</label>
             <textarea name="google_map" rows="2" class="form-control">{{ old('lng', $post->google_map) }}</textarea>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="mb-3">Project Images (Gallery)</h5>
+                <div class="form-group">
+                    <label for="post_images">Upload multiple images</label>
+                    <input type="file" name="post_images[]" id="post_images" class="form-control" multiple accept="image/*">
+                    <small class="text-muted">You can select multiple images at once. Recommended: JPG/PNG/WEBP.</small>
+                </div>
+            </div>
         </div>
     </div>
 

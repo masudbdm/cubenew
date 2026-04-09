@@ -1,7 +1,6 @@
 @extends('home.layouts.pageMaster')
 
 @push('css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 <style>
 /* ===== Hero ===== */
 .project-hero {
@@ -96,223 +95,22 @@
   box-shadow:0 10px 30px rgba(0,0,0,0.12);
 }
 
-/* ===== Gallery (carousel like screenshot) ===== */
-.project-gallery-carousel{
-  position: relative;
-  border-radius: 18px;
-  padding: 14px 12px 24px;
-  overflow: hidden; /* keep peeks inside frame */
-  border: 1px solid rgba(0,0,0,0.04);
-}
-.project-gallery-carousel::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius: 18px;
-  background: #f6f1e8;
-  z-index: 0;
-}
-.project-gallery-carousel > *{
-  position: relative;
-  z-index: 1;
-}
-.project-gallery-carousel__title{
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 800;
-  letter-spacing: 8px;
-  font-size: clamp(34px, 6vw, 64px);
-  color: rgba(20,20,20,0.12);
-  text-transform: uppercase;
-  user-select: none;
-  pointer-events: none;
-  z-index: 3;
-  white-space: nowrap;
-}
-.project-gallery-carousel .splide{
-  width: 100%;
-  padding: 40px 0 10px; /* undo last change */
-  padding-left: 24px;
-  padding-right: 24px;
-  overflow: visible; /* allow internal overflow; outer frame clips */
-}
-.project-gallery-carousel .splide__slide{
-  display: flex;
-  justify-content: center;
-  /* Prevent oversized inner frame from pushing off-center */
-  box-sizing: border-box;
-}
-.project-gallery-carousel .gallery-slide{
-  width: 100%;
-  max-width: 980px; /* bigger center image */
-  aspect-ratio: 16/9;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #0b0b0d;
-  box-shadow: 0 18px 55px rgba(0,0,0,0.18);
-  position: relative;
-}
-.project-gallery-carousel .splide__slide{
-  opacity: .78;
-  transform: scale(.88); /* side slides look smaller */
-  transition: opacity .25s ease, transform .25s ease;
-}
-.project-gallery-carousel .is-active{
-  opacity: 1;
-  transform: scale(1); /* center slide full */
-}
-.project-gallery-carousel .gallery-slide img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-.project-gallery-carousel .gallery-caption{
-  margin-top: 10px;
-  text-align: center;
-  color: rgba(0,0,0,0.65);
-  font-size: 14px;
-}
-.project-gallery-carousel__nav{
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 14px;
-  position: relative;
-  z-index: 6; /* keep above any overlays */
-}
-.project-gallery-carousel__nav button{
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.25);
-  background: rgba(255,255,255,0.65);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.10);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-  pointer-events: auto;
-  touch-action: manipulation;
-}
-.project-gallery-carousel__nav button:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.14);
-  background: rgba(255,255,255,0.85);
-}
-.project-gallery-carousel__nav button:active{ transform: translateY(0); }
-.project-gallery-carousel__nav svg{ width: 18px; height: 18px; }
-
-@media (max-width: 575.98px){
-  .project-gallery-carousel{ padding-bottom: 18px; }
-  .project-gallery-carousel .gallery-slide{ aspect-ratio: 4/3; }
-  .project-gallery-carousel__title{ top: -10px; letter-spacing: 6px; }
-  .project-gallery-carousel .splide{ padding-left: 12px; padding-right: 12px; }
+/* ===== Gallery ===== */
+.gallery img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:15px;
+  cursor:pointer;
+  transition: all .4s ease;
+  border:3px solid transparent;
 }
 
-/* Gallery lightbox */
-.gallery-modal .modal-content{
-  background: rgba(10,10,12,0.92);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-}
-.gallery-modal-close{
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.22);
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  line-height: 1;
-  opacity: .95;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-  transition: transform .15s ease, background .15s ease, opacity .15s ease;
-}
-.gallery-modal-close:hover{
-  background: rgba(0,0,0,0.5);
-  opacity: 1;
-  transform: translateY(-1px);
-}
-.gallery-modal-close:active{ transform: translateY(0); }
-.gallery-modal .modal-header{ padding-bottom: 6px; padding-top: 12px; }
-.gallery-modal .modal-body{ position: relative; padding-top: 0; }
-.gallery-modal-nav{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
-  cursor: pointer;
-  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-}
-.gallery-modal-nav:hover{
-  background: rgba(0,0,0,0.5);
-  box-shadow: 0 14px 38px rgba(0,0,0,0.42);
-}
-.gallery-modal-nav:active{ transform: translateY(-50%) scale(0.98); }
-.gallery-modal-nav svg{ width: 20px; height: 20px; }
-.gallery-modal-nav--prev{ left: 14px; }
-.gallery-modal-nav--next{ right: 14px; }
-@media (max-width: 575.98px){
-  .gallery-modal-nav--prev{ left: 10px; }
-  .gallery-modal-nav--next{ right: 10px; }
-  .gallery-modal-nav{ width: 44px; height: 44px; }
-}
-.gallery-modal-img{
-  width: 100%;
-  height: auto;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 12px;
-}
-.gallery-modal-media{
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-}
-.gallery-modal-img{
-  transition: opacity .22s ease, transform .28s ease;
-  will-change: opacity, transform;
-}
-.gallery-modal.is-switching .gallery-modal-img{
-  opacity: 0;
-  transform: translateX(18px);
-}
-.gallery-modal.is-switching.is-prev .gallery-modal-img{
-  transform: translateX(-18px);
-}
-.gallery-modal-desc{
-  margin-top: 12px;
-  color: rgba(255,255,255,0.82);
-  text-align: center;
-  font-size: 14px;
-}
-.gallery-modal.is-switching .gallery-modal-desc{
-  opacity: 0;
-  transform: translateY(6px);
-}
-.gallery-modal-desc{
-  transition: opacity .18s ease, transform .22s ease;
-  will-change: opacity, transform;
+.gallery img:hover {
+  transform: scale(1.08);
+  border-color:#3f51b5;
+  box-shadow:0 12px 25px rgba(0,0,0,0.2);
 }
 
 /* ===== Map ===== */
@@ -389,24 +187,18 @@
     position: relative;
     overflow: hidden;
     height: 400px;
-    background: rgba(255,255,255,0.06);
 }
 
 .card-img-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* no crop */
-    object-position: center;
+    object-fit: cover;
     transition: transform 1.2s ease, filter 1.2s ease;
 }
 
 .card-img-wrapper:hover img {
     transform: scale(1.08);
     filter: brightness(1.1);
-}
-
-@media (max-width: 575.98px){
-    .card-img-wrapper{ height: 280px; }
 }
 
 /* Glassy overlay animation */
@@ -883,33 +675,6 @@ margin-top:14px;
           </div>
 @endif
 
-@if($post->number_of_bedrooms)
-          <div class="col-md-6 mb-3">
-            <div class="highlight-box">
-              <strong>Number of Bedrooms</strong><br>
-              {{ $post->number_of_bedrooms }}
-            </div>
-          </div>
-@endif
-
-@if($post->rajuk_approval_number)
-          <div class="col-md-6 mb-3">
-            <div class="highlight-box">
-              <strong>Rajuk Approval Number</strong><br>
-              {{ $post->rajuk_approval_number }}
-            </div>
-          </div>
-@endif
-
-@if($post->engineer_name)
-          <div class="col-md-6 mb-3">
-            <div class="highlight-box">
-              <strong>Engineer Name</strong><br>
-              {{ $post->engineer_name }}
-            </div>
-          </div>
-@endif
-
 @if($post->basements)
           <div class="col-md-6 mb-3">
             <div class="highlight-box">
@@ -947,51 +712,29 @@ margin-top:14px;
 </div>
 @endif
 
-{{-- ===== Gallery (uploaded per-post) ===== --}}
-@php
-  $postImages = $post->images ?? collect();
-@endphp
+{{-- ===== Gallery ===== --}}
+{{-- <h4 class="section-title mt-5">Project Gallery</h4>
 
-@if($postImages->count())
-  <h4 class="section-title mt-5">Gallery</h4>
-
-  <div class="project-gallery-carousel w3-card-4 mb-5">
-    <div class="project-gallery-carousel__title">Gallery</div>
-
-    <div class="splide " id="postGallerySplide" aria-label="Project gallery">
-      <div class="splide__track">
-        <ul class="splide__list">
-        @foreach($postImages as $img)
-          @php $src = asset('storage/'.$img->image_path); @endphp
-          <li class="splide__slide">
-            <div class="w-100">
-              <div class="gallery-slide" role="button" tabindex="0" data-gallery-open="{{ $src }}">
-                <img src="{{ $src }}" alt="Gallery image" loading="lazy" decoding="async">
-              </div>
-              @if(!empty($img->description))
-                <div class="gallery-caption">{{ $img->description }}</div>
-              @endif
-            </div>
-          </li>
-        @endforeach
-        </ul>
-      </div>
-    </div>
-
-    <div class="project-gallery-carousel__nav" aria-label="Gallery navigation">
-      <button type="button" class="gallery-nav-prev" aria-label="Previous image">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6"></path>
-        </svg>
-      </button>
-      <button type="button" class="gallery-nav-next" aria-label="Next image">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M9 18l6-6-6-6"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
-@endif
+<div class="row gallery">
+<div class="col-md-4">
+<img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4">
+</div>
+<div class="col-md-4">
+<img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d">
+</div>
+<div class="col-md-4">
+<img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c">
+</div>
+<div class="col-md-4">
+<img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e">
+</div>
+<div class="col-md-4">
+<img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c">
+</div>
+<div class="col-md-4">
+<img src="https://images.unsplash.com/photo-1600607687644-c7f34b5063c0">
+</div>
+</div> --}}
 
 @if($post->google_map)
 {{-- ===== Google Map ===== --}}
@@ -1139,7 +882,7 @@ Download Brochure
 
 <div class="row">
       @foreach($posts as $posta)
-    <div class="col-12 col-md-6 mb-4">
+    <div class="col-md-12 mb-4">
       <a href="{{ route('user.postDetails', [$posta,Str::slug($posta->title)]) }}">
         <div class="card related-card">
             <div class="card-img-wrapper">
@@ -1195,7 +938,6 @@ style="width:100%;height:80vh;border:0;"></iframe>
 </div>
 @endsection
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 <script>
   
 function openBrochurePreview(url){
@@ -1261,33 +1003,6 @@ document.querySelectorAll(".youtube-lite").forEach(function(el){
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<div class="modal fade gallery-modal" id="galleryLightbox" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header border-0">
-        <h5 class="modal-title text-white mb-0">Preview</h5>
-        <button type="button" class="gallery-modal-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-body pt-0">
-        <div class="gallery-modal-media">
-          <button type="button" class="gallery-modal-nav gallery-modal-nav--prev" aria-label="Previous image">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M15 18l-6-6 6-6"></path>
-            </svg>
-          </button>
-          <button type="button" class="gallery-modal-nav gallery-modal-nav--next" aria-label="Next image">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 18l6-6-6-6"></path>
-            </svg>
-          </button>
-          <img id="galleryLightboxImg" class="gallery-modal-img" src="" alt="Preview">
-        </div>
-        <div id="galleryLightboxDesc" class="gallery-modal-desc"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 @if(session('success'))
 <script>
 Swal.fire({
@@ -1307,127 +1022,4 @@ Swal.fire({
 });
 </script>
 @endif
-@endpush
-
-@push('js')
-<script>
-  (function(){
-    var modalEl = document.getElementById('galleryLightbox');
-    var imgEl = document.getElementById('galleryLightboxImg');
-    var descEl = document.getElementById('galleryLightboxDesc');
-    var splideRoot = document.getElementById('postGallerySplide');
-    if (!splideRoot) return;
-
-    var galleryRoot = splideRoot.closest('.project-gallery-carousel');
-    var nextBtn = galleryRoot ? galleryRoot.querySelector('.gallery-nav-next') : null;
-    var prevBtn = galleryRoot ? galleryRoot.querySelector('.gallery-nav-prev') : null;
-    var modalPrevBtn = modalEl ? modalEl.querySelector('.gallery-modal-nav--prev') : null;
-    var modalNextBtn = modalEl ? modalEl.querySelector('.gallery-modal-nav--next') : null;
-
-    var gallerySources = [];
-    var galleryDescs = [];
-    var currentIndex = -1;
-
-    function openLightbox(src){
-      if (!modalEl || !imgEl || !src || typeof bootstrap === 'undefined') return;
-      imgEl.src = src;
-      if (descEl) descEl.textContent = '';
-      bootstrap.Modal.getOrCreateInstance(modalEl).show();
-    }
-
-    function setLightboxByIndex(idx){
-      if (!gallerySources.length || !imgEl) return;
-      var n = gallerySources.length;
-      currentIndex = ((idx % n) + n) % n;
-      imgEl.src = gallerySources[currentIndex];
-      if (descEl) descEl.textContent = (galleryDescs[currentIndex] || '');
-    }
-    function withTransition(dir, fn){
-      if (!modalEl) { fn(); return; }
-      modalEl.classList.add('is-switching');
-      modalEl.classList.toggle('is-prev', dir === 'prev');
-      modalEl.classList.toggle('is-next', dir === 'next');
-      window.setTimeout(function(){
-        fn();
-        window.setTimeout(function(){
-          modalEl.classList.remove('is-switching','is-prev','is-next');
-        }, 40);
-      }, 160);
-    }
-    function lightboxPrev(){ withTransition('prev', function(){ setLightboxByIndex(currentIndex - 1); }); }
-    function lightboxNext(){ withTransition('next', function(){ setLightboxByIndex(currentIndex + 1); }); }
-
-    // Lightbox open
-    splideRoot.querySelectorAll('[data-gallery-open]').forEach(function (el) {
-      var src = el.getAttribute('data-gallery-open');
-      if (src) gallerySources.push(src);
-      var descNode = el.closest('.w-100') ? el.closest('.w-100').querySelector('.gallery-caption') : null;
-      galleryDescs.push(descNode ? (descNode.textContent || '').trim() : '');
-
-      el.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var s = el.getAttribute('data-gallery-open');
-        currentIndex = gallerySources.indexOf(s);
-        if (currentIndex < 0) currentIndex = 0;
-        openLightbox(s);
-        if (descEl) descEl.textContent = (galleryDescs[currentIndex] || '');
-      }, { capture: true });
-      el.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
-      });
-    });
-
-    // Lightbox navigation buttons
-    if (modalPrevBtn) modalPrevBtn.addEventListener('click', function(e){ e.preventDefault(); lightboxPrev(); });
-    if (modalNextBtn) modalNextBtn.addEventListener('click', function(e){ e.preventDefault(); lightboxNext(); });
-
-    // Keyboard navigation inside lightbox
-    if (modalEl) {
-      modalEl.addEventListener('keydown', function(e){
-        if (e.key === 'ArrowLeft') { e.preventDefault(); lightboxPrev(); }
-        if (e.key === 'ArrowRight') { e.preventDefault(); lightboxNext(); }
-        if (e.key === 'Escape') { /* bootstrap handles */ }
-      });
-      modalEl.addEventListener('shown.bs.modal', function(){
-        // Ensure key events work even if focus isn't on buttons
-        modalEl.setAttribute('tabindex', '-1');
-        modalEl.focus();
-        if (currentIndex < 0 && imgEl && imgEl.src) {
-          currentIndex = gallerySources.indexOf(imgEl.src);
-        }
-        if (currentIndex >= 0 && descEl) descEl.textContent = (galleryDescs[currentIndex] || '');
-      });
-    }
-
-    if (typeof Splide === 'undefined') return;
-
-    var slideCount = splideRoot.querySelectorAll('.splide__slide').length;
-    var canLoop = slideCount > 1;
-
-    var splide = new Splide(splideRoot, {
-      type: canLoop ? 'loop' : 'slide',
-      focus: 'center',
-      perPage: 1,                // always 1 big center
-      gap: 18,
-      padding: { left: '22%', right: '22%' }, // show half of left/right slides
-      arrows: false,
-      pagination: false,
-      speed: 450,
-      drag: true,
-      breakpoints: {
-        992: { gap: 18, padding: { left: '20%', right: '20%' } },
-        576: { gap: 12, padding: { left: '14%', right: '14%' } },
-      },
-    });
-    splide.mount();
-
-    if (prevBtn) {
-      prevBtn.onclick = function (e) { e.preventDefault(); splide.go('<'); };
-    }
-    if (nextBtn) {
-      nextBtn.onclick = function (e) { e.preventDefault(); splide.go('>'); };
-    }
-  })();
-</script>
 @endpush

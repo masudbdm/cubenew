@@ -453,6 +453,30 @@
 
     <div class="col-md-6">
         <div class="form-group">
+            <label for="number_of_bedrooms">Number of Bedrooms</label>
+            <input type="text" name="number_of_bedrooms" class="form-control"
+                value="{{ old('number_of_bedrooms', $post->number_of_bedrooms) }}" placeholder="Enter Number of Bedrooms">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="rajuk_approval_number">Rajuk Approval Number</label>
+            <input type="text" name="rajuk_approval_number" class="form-control"
+                value="{{ old('rajuk_approval_number', $post->rajuk_approval_number) }}" placeholder="Enter Rajuk Approval Number">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="engineer_name">Engineer Name</label>
+            <input type="text" name="engineer_name" class="form-control"
+                value="{{ old('engineer_name', $post->engineer_name) }}" placeholder="Enter Engineer Name">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group">
             <label for="address">Address</label>
             <input type="text" name="address" class="form-control"
                 value="{{ old('address', $post->address) }}" placeholder="Enter Address">
@@ -491,6 +515,69 @@
         <div class="form-group">
             <label for="lng">Google Map</label>
             <textarea name="google_map" rows="2" class="form-control">{{ old('lng', $post->google_map) }}</textarea>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="mb-3">Project Images (Gallery)</h5>
+
+                <div class="form-group">
+                    <label for="post_images">Upload multiple images</label>
+                    <input type="file" name="post_images[]" id="post_images" class="form-control" multiple accept="image/*">
+                    <small class="text-muted">You can select multiple images at once. Recommended: JPG/PNG/WEBP.</small>
+                </div>
+
+                @if($post->images && $post->images->count())
+                    <div class="mt-3">
+                        <label class="d-block mb-2">Existing images (edit description / order, or select to remove)</label>
+                        <div class="row">
+                            @foreach($post->images as $img)
+                                <div class="col-12 col-md-6 mb-3">
+                                    <div class="border rounded p-3">
+                                        <div class="d-flex gap-3">
+                                            <img src="{{ asset('storage/'.$img->image_path) }}"
+                                                 alt="image"
+                                                 class="img-fluid"
+                                                 style="width:160px;max-width:160px;height:120px;object-fit:cover;border-radius:10px;">
+                                            <div class="flex-grow-1">
+                                                <div class="form-group mb-2">
+                                                    <label class="small text-muted mb-1">Description (optional)</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="post_image_meta[{{ $img->id }}][description]"
+                                                           value="{{ old('post_image_meta.'.$img->id.'.description', $img->description) }}"
+                                                           maxlength="500"
+                                                           placeholder="e.g. Lobby / Exterior / Living room">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="small text-muted mb-1">Sort order</label>
+                                                    <input type="number"
+                                                           class="form-control"
+                                                           name="post_image_meta[{{ $img->id }}][sort_order]"
+                                                           value="{{ old('post_image_meta.'.$img->id.'.sort_order', $img->sort_order) }}"
+                                                           style="max-width:140px">
+                                                </div>
+                                                <div class="form-check mt-2">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           name="remove_post_image_ids[]"
+                                                           value="{{ $img->id }}"
+                                                           id="remove_post_image_{{ $img->id }}">
+                                                    <label class="form-check-label" for="remove_post_image_{{ $img->id }}">
+                                                        Remove this image
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 

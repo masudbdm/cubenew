@@ -254,6 +254,7 @@ class WelcomeController extends Controller
         // dd("function postDetails");
         // $categories = Category::orderBy('drag_id')->get();
 
+        $post->load('images');
         $posts = Post::where('publish_status','published')->where('id','<>',$post->id)->latest()->take(5)->get();
 
         // dd($allPosts);
