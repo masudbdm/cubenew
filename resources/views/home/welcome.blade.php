@@ -1503,6 +1503,426 @@ rel="stylesheet">
     }
 }
 
+/* Premium counting + tower reveal (homepage) */
+.count-premium-shell,
+.count-card,
+.tower-frame__inner{
+    will-change: transform;
+}
+
+.count-premium-shell{
+    position: relative;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+    border: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 20px 70px rgba(15,23,42,.12);
+    overflow: hidden;
+    padding: 22px;
+}
+.count-premium-shell::before{
+    content:"";
+    position:absolute;
+    inset:-18% -40%;
+    width: 120%;
+    height: 140%;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.75) 45%,
+        rgba(255,255,255,0) 100%);
+    transform: translateX(-140%) rotate(12deg);
+    opacity: .10;
+    pointer-events:none;
+    z-index: 3; /* shine above everything, still subtle */
+    mix-blend-mode: soft-light;
+    filter: blur(.6px);
+    animation: countSectionShine 7.8s cubic-bezier(.2,.8,.2,1) infinite;
+}
+.count-premium-shell > .row{
+    position: relative;
+    z-index: 2;
+}
+.count-premium-shell__glow{
+    z-index: 0;
+}
+.count-premium-shell::after{
+    z-index: 0;
+}
+
+@keyframes countSectionShine{
+    0%   { transform: translateX(-140%) rotate(12deg); opacity: .06; }
+    12%  { opacity: .22; }
+    55%  { opacity: .12; }
+    100% { transform: translateX(140%) rotate(12deg); opacity: .06; }
+}
+.count-premium-shell::after{
+    content:"";
+    position:absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events:none;
+    background:
+        radial-gradient(1200px 340px at 10% 0%, rgba(255,255,255,.55), rgba(255,255,255,0) 55%),
+        radial-gradient(520px 240px at 90% 12%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%);
+    opacity: .45;
+    z-index: 0;
+}
+.count-premium-shell__glow{
+    position:absolute; inset:-30% -20% auto auto;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle at 30% 30%, rgba(34,197,94,.20), rgba(59,130,246,.14) 45%, rgba(255,255,255,0) 70%);
+    filter: blur(2px);
+    pointer-events:none;
+    z-index: 0;
+}
+.count-premium-shell__glow--2{
+    inset:auto auto -35% -25%;
+    background: radial-gradient(circle at 60% 60%, rgba(245,158,11,.16), rgba(168,85,247,.12) 45%, rgba(255,255,255,0) 70%);
+}
+.count-premium-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.4rem .75rem;
+    border-radius:999px;
+    background: rgba(15,23,42,.05);
+    border: 1px solid rgba(15,23,42,.08);
+    font-weight:700;
+    font-size:.85rem;
+    letter-spacing:.2px;
+    color:#0f172a;
+}
+.count-premium-title{
+    margin-top:.8rem;
+    font-weight:800;
+    line-height:1.15;
+    letter-spacing:-.3px;
+    color:#0b1220;
+}
+.count-premium-lead{
+    margin-top:.5rem;
+    color: rgba(15,23,42,.72);
+    max-width: 58ch;
+}
+.count-premium-shell > .row{
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes countCardGlaze {
+    0%   { transform: translateX(-170%) rotate(18deg); opacity: .06; }
+    10%  { opacity: .55; }
+    55%  { opacity: .22; }
+    100% { transform: translateX(170%) rotate(18deg); opacity: .06; }
+}
+.count-card{
+    height:100%;
+    border-radius: 18px;
+    padding: 16px 14px;
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(15,23,42,.08);
+    box-shadow: 0 10px 30px rgba(15,23,42,.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+    position: relative;
+    overflow: hidden;
+}
+.count-card::before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-70%;
+    width: 70%;
+    height: 180%;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.95) 44%,
+        rgba(255,255,255,0) 100%);
+    filter: blur(.4px);
+    transform: translateX(-170%) rotate(18deg);
+    opacity: .06;
+    pointer-events:none;
+    mix-blend-mode: overlay;
+    animation: countCardGlaze 5.8s cubic-bezier(.2,.8,.2,1) infinite;
+}
+.count-card:hover::before{
+    opacity: .85;
+    animation-duration: 3.2s;
+}
+.count-card > *{
+    position: relative;
+    z-index: 1;
+}
+.count-card:hover{
+    transform: translateY(-2px) scale(1.035);
+    box-shadow: 0 18px 52px rgba(15,23,42,.16);
+}
+.count-card__value{
+    font-family: "Bebas Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: clamp(28px, 3.2vw, 44px);
+    line-height: 1;
+    letter-spacing: .5px;
+    color:#0b1220;
+}
+.count-card__label{
+    margin-top: .45rem;
+    font-weight: 800;
+    font-size: .95rem;
+    color: rgba(15,23,42,.92);
+}
+.count-card__meta{
+    margin-top: .2rem;
+    font-size: .82rem;
+    color: rgba(15,23,42,.62);
+}
+
+.count-image-card{
+    border-radius: 26px;
+    padding: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.40));
+    border: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 18px 56px rgba(15,23,42,.12);
+    overflow: hidden;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+}
+.count-image-card:hover{
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 24px 76px rgba(15,23,42,.18);
+}
+.count-image-card__img{
+    display:block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    object-fit: cover;
+    transform: scale(1.01);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), filter .35s ease;
+    filter: saturate(1.02) contrast(1.02);
+}
+.count-image-card__img.animate-zoom{
+    animation: zoomIn 12s ease-in-out infinite alternate;
+}
+.count-image-card:hover .count-image-card__img.animate-zoom{
+    animation-play-state: paused;
+}
+.count-image-card:hover .count-image-card__img{
+    transform: scale(1.05);
+}
+.count-image-card{
+    position: relative;
+}
+.count-image-card::after{
+    content:"";
+    position:absolute;
+    inset:-30% -40%;
+    width: 120%;
+    height: 150%;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.85) 45%,
+        rgba(255,255,255,0) 100%);
+    transform: translateX(-140%) rotate(12deg);
+    opacity: .08;
+    pointer-events:none;
+    mix-blend-mode: soft-light;
+    filter: blur(.6px);
+    animation: countImageCardShine 6.6s cubic-bezier(.2,.8,.2,1) infinite;
+}
+@keyframes countImageCardShine{
+    0%   { transform: translateX(-140%) rotate(12deg); opacity: .06; }
+    12%  { opacity: .24; }
+    55%  { opacity: .12; }
+    100% { transform: translateX(140%) rotate(12deg); opacity: .06; }
+}
+
+/* Same zoom animation as postDetails featured image */
+@keyframes zoomIn {
+  0% { transform: scale(1); filter: brightness(1) saturate(1.02) contrast(1.02); }
+  50% { transform: scale(1.08); filter: brightness(1.05) saturate(1.06) contrast(1.02); }
+  100% { transform: scale(1); filter: brightness(1) saturate(1.02) contrast(1.02); }
+}
+
+.tower-frame{
+    position: relative;
+    border-radius: 26px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(15,23,42,.04), rgba(15,23,42,.02));
+    border: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 18px 56px rgba(15,23,42,.10);
+    overflow: hidden;
+    min-height: 500px;
+}
+.tower-frame__inner{
+    position: relative;
+    height: 100%;
+    min-height: 470px;
+    border-radius: 20px;
+    background: radial-gradient(circle at 30% 10%, rgba(59,130,246,.14), rgba(255,255,255,0) 60%),
+                radial-gradient(circle at 60% 70%, rgba(34,197,94,.10), rgba(255,255,255,0) 55%),
+                linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.35));
+    overflow:hidden;
+}
+.tower-frame__shine{
+    position:absolute;
+    inset:-40% auto auto -30%;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%);
+    transform: rotate(18deg);
+    pointer-events:none;
+}
+.tower-frame__reveal{
+    position:absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    width: min(420px, 92%);
+    height: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 86%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 86%, rgba(0,0,0,0) 100%);
+}
+.tower-frame__reveal::after{
+    content:"";
+    position:absolute;
+    top:-30%;
+    left:-70%;
+    width: 70%;
+    height: 160%;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.85) 45%,
+        rgba(255,255,255,0) 100%);
+    transform: translateX(-170%) rotate(14deg);
+    opacity: .0;
+    pointer-events:none;
+    mix-blend-mode: screen;
+    filter: blur(.35px);
+    animation: towerImgGlaze 6.6s cubic-bezier(.2,.8,.2,1) infinite;
+}
+
+@keyframes towerImgGlaze{
+    0%   { transform: translateX(-170%) rotate(14deg); opacity: .06; }
+    12%  { opacity: .48; }
+    55%  { opacity: .18; }
+    100% { transform: translateX(170%) rotate(14deg); opacity: .06; }
+}
+.tower-frame__img{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:100%;
+    object-fit: contain;
+    object-position: center bottom;
+    display:block;
+    filter: drop-shadow(0 26px 50px rgba(15,23,42,.18));
+}
+.tower-frame__tower{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height: 130%;
+    transform: translateY(0);
+    opacity: 1;
+    background:
+        linear-gradient(180deg, rgba(15,23,42,.22), rgba(15,23,42,.06)),
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,255,255,.34) 0px,
+            rgba(255,255,255,.34) 8px,
+            rgba(255,255,255,.06) 8px,
+            rgba(255,255,255,.06) 18px
+        );
+    border-radius: 18px 18px 10px 10px;
+    clip-path: polygon(10% 100%, 90% 100%, 82% 6%, 18% 0%);
+    box-shadow: 0 40px 100px rgba(15,23,42,.18);
+}
+.tower-frame__shadow{
+    position:absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+    width: min(300px, 82%);
+    height: 22px;
+    background: radial-gradient(circle at 50% 50%, rgba(15,23,42,.18), rgba(15,23,42,0) 68%);
+    filter: blur(2px);
+    pointer-events:none;
+}
+
+@media (max-width: 991.98px){
+    .tower-frame{ min-height: 380px; }
+    .tower-frame__inner{ min-height: 350px; }
+}
+
+/* Mobile spacing polish for counting section */
+@media (max-width: 767.98px){
+    #count-stats{
+        padding-top: .9rem !important;
+        padding-bottom: 1rem !important;
+    }
+    #count-stats .count-premium-shell{
+        padding: 14px;
+        border-radius: 18px;
+    }
+    #count-stats .count-premium-title{
+        font-size: 1.45rem;
+        margin-top: .65rem;
+    }
+    #count-stats .count-premium-lead{
+        font-size: .95rem;
+        margin-top: .4rem;
+    }
+    #count-stats .count-card{
+        padding: 12px 12px;
+        border-radius: 16px;
+        box-shadow: 0 10px 26px rgba(15,23,42,.08);
+    }
+    #count-stats .count-card__label{
+        font-size: .9rem;
+    }
+    #count-stats .count-card__meta{
+        font-size: .78rem;
+    }
+    #count-stats .tower-frame{
+        padding: 14px;
+        border-radius: 20px;
+        min-height: 260px;
+    }
+    #count-stats .tower-frame__inner{
+        min-height: 230px;
+        border-radius: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .count-premium-shell::before{
+        animation: none !important;
+        opacity: .14;
+    }
+    .count-card::before{
+        animation: none !important;
+        opacity: .14;
+    }
+    .tower-frame__reveal::after{
+        animation: none !important;
+        opacity: .12;
+    }
+    .count-image-card::after{
+        animation: none !important;
+        opacity: .12;
+    }
+    .count-image-card__img.animate-zoom{
+        animation: none !important;
+    }
+    .count-card{
+        transition: box-shadow .25s ease;
+    }
+}
+
 </style>
 @endpush
 @section('content')
@@ -1603,17 +2023,13 @@ rel="stylesheet">
 
 </div>
 
-<section class="pt-3 pb-4" id="count-stats">
-    <div class="container">
-        <div class="row">
-                     
-                </div>
-            </div>
-        </section>
+
+
 
  
 
-        <section class="mb-3">
+        <section class="mb-5 mt-5">
+        <div class="container px-3 px-md-4">
             <div class="row">
                 @foreach ($categoriesPost as $category)
                 <div class="col-md-4 col-12">
@@ -1632,6 +2048,7 @@ rel="stylesheet">
                     </div>
                     @endforeach
                 </div>
+            </div>
             </section>
             {{-- End Categories --}}
 
@@ -1748,103 +2165,119 @@ rel="stylesheet">
             </div>
         </section>
 
-            <section class="my-4 py-1">
-       
-                    <div class="row align-items-center">
-                        <div class="col-12 col-md-4 ms-auto me-auto p-lg-4 mt-lg-0 mt-3">
-                            <div class="rotating-card-container">
-                                <div
-                                class="card card-rotate card-background card-background-mask-primary shadow-primary mt-md-0 mt-5">
-                                <div class="front front-background"
-                                style="background-image: url(https://images.unsplash.com/photo-1569683795645-b62e50fbf103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80); background-size: cover;">
-                                <div class="card-body py-7 text-center">
-                                    <i class="material-icons text-white text-4xl my-3">touch_app</i>
-                                    <h3 class="text-white">Touch Here</h3>
-                                    <p class="text-white opacity-8 w-100">You are welcomed to Cube holdings Ltd. We are hearing you. </p>
+
+
+        <section class="pt-4 pb-4 mb-4" id="count-stats" aria-label="Company stats">
+    <div class="container px-3 px-md-4">
+        <div class="count-premium-shell">
+            <span class="count-premium-shell__glow" aria-hidden="true"></span>
+            <span class="count-premium-shell__glow count-premium-shell__glow--2" aria-hidden="true"></span>
+
+            <div class="row align-items-center g-4 g-lg-5 position-relative">
+                <div class="col-12 col-lg-6">
+                    <div class="count-premium-head">
+                        <span class="count-premium-badge">
+                            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                            Growth by the numbers
+                        </span>
+                        <h2 class="count-premium-title">
+                            {{ $websiteParameter->count_section_title ?: 'Witness, as we transform your land to a landmark' }}
+                        </h2>
+                        <p class="count-premium-lead mb-0">
+                            {{ $websiteParameter->count_section_subtitle ?: 'Scroll করলে সংখ্যাগুলো smoothly increment হবে—একই সাথে ডান পাশে building নিচ থেকে উপরে reveal হবে।' }}
+                        </p>
+                    </div>
+
+                    <div class="row g-3 g-md-4 mt-3 mt-md-4">
+                        <div class="col-6 col-md-6">
+                            <div class="count-card js-count-card">
+                                <div class="count-card__value">
+                                    <span class="js-count"
+                                          data-target="{{ $websiteParameter->count_stat_1 ?? 11000000 }}"
+                                          data-suffix="+"
+                                          data-format="compact">0</span>
                                 </div>
+                                <div class="count-card__label">Total Area Built</div>
+                                <div class="count-card__meta">(Million sft.)</div>
                             </div>
-                            <div class="back back-background"
-                            style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
-                            <div class="card-body pt-7 text-center">
-                                <h3 class="text-white">Cube Holdings Ltd</h3>
-                                <p class="text-white opacity-8"> A lifestyle behind the walls—  
-                    where privacy, comfort, and refined living come together.
-                                </p>
-                                <a href="{{ route('wantToKnowAboutProjects') }}"
-                                class="btn btn-white btn-sm w-50 mx-auto mt-3">Want to know More</a>
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <div class="count-card js-count-card">
+                                <div class="count-card__value">
+                                    <span class="js-count"
+                                          data-target="{{ $websiteParameter->count_stat_2 ?? 21 }}"
+                                          data-suffix=""
+                                          data-format="plain">0</span>
+                                </div>
+                                <div class="count-card__label">Years Since Inception</div>
+                                <div class="count-card__meta">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <div class="count-card js-count-card">
+                                <div class="count-card__value">
+                                    <span class="js-count"
+                                          data-target="{{ $websiteParameter->count_stat_3 ?? 63 }}"
+                                          data-suffix=""
+                                          data-format="plain">0</span>
+                                </div>
+                                <div class="count-card__label">Completed Projects</div>
+                                <div class="count-card__meta">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <div class="count-card js-count-card">
+                                <div class="count-card__value">
+                                    <span class="js-count"
+                                          data-target="{{ $websiteParameter->count_stat_4 ?? 100 }}"
+                                          data-suffix="+"
+                                          data-format="plain">0</span>
+                                </div>
+                                <div class="count-card__label">Number of Projects</div>
+                                <div class="count-card__meta">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <div class="count-card js-count-card">
+                                <div class="count-card__value">
+                                    <span class="js-count"
+                                          data-target="{{ $websiteParameter->count_stat_5 ?? 1500 }}"
+                                          data-suffix="+"
+                                          data-format="plain">0</span>
+                                </div>
+                                <div class="count-card__label">Happy Clients</div>
+                                <div class="count-card__meta">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <div class="count-card js-count-card">
+                                <div class="count-card__value">
+                                    <span class="js-count"
+                                          data-target="{{ $websiteParameter->count_stat_6 ?? 18000000 }}"
+                                          data-suffix="+"
+                                          data-format="compact">0</span>
+                                </div>
+                                <div class="count-card__label">Total Area in Pipeline</div>
+                                <div class="count-card__meta">(Million sft.)</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-8 mt-4 mt-md-0">
-    <div class="row g-4">
-    @php
-        $customerLinkRaw = $websiteParameter->customer_review_link ?? '';
-        $landownerLinkRaw = $websiteParameter->landowner_review_link ?? '';
-        $customerHref = filled($customerLinkRaw)
-            ? (\Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://'])
-                ? trim($customerLinkRaw)
-                : url(trim($customerLinkRaw)))
-            : route('customerReviews');
-        $landownerHref = filled($landownerLinkRaw)
-            ? (\Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://'])
-                ? trim($landownerLinkRaw)
-                : url(trim($landownerLinkRaw)))
-            : route('landownerReviews');
-        $customerExternal = filled($customerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://']);
-        $landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://']);
-    @endphp
 
-    <!-- Customer Reviews -->
-    <div class="col-12">
-        <div class="review-card customer-card">
-            <div class="review-icon">
-                <i class="material-icons">groups</i>
-            </div>
-
-            <div class="review-content">
-                <h4>Customer Reviews</h4>
-                <p>
-                    Hear directly from our valued clients about their experience
-                    with our developments, service quality, and commitment to
-                    delivering excellence.
-                </p>
-
-                <a href="{{ $customerHref }}" class="review-btn primary" @if ($customerExternal) target="_blank" rel="noopener noreferrer" @endif>
-                    View Customer Reviews
-                </a>
+                <div class="col-12 col-lg-6">
+                    @if(!empty($websiteParameter->count_section_image))
+                        <div class="count-image-card" aria-label="Count section image">
+                            <img src="{{ asset($websiteParameter->countSectionImage()) }}"
+                                 alt=""
+                                 class="count-image-card__img animate-zoom"
+                                 loading="lazy">
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Landowner Reviews -->
-    <div class="col-12">
-        <div class="review-card land-card">
-            <div class="review-icon">
-                <i class="material-icons">handshake</i>
-            </div>
-
-            <div class="review-content">
-                <h4>Landowner Reviews</h4>
-                <p>
-                    Discover what our land partners say about working with us —
-                    from transparent agreements to successful project delivery.
-                </p>
-
-                <a href="{{ $landownerHref }}" class="review-btn secondary" @if ($landownerExternal) target="_blank" rel="noopener noreferrer" @endif>
-                    View Landowner Reviews
-                </a>
-            </div>
-        </div>
-    </div>
-
-</div>
-</div>
-        </div>
- 
 </section>
-
  
  <section class="my-5">
 
@@ -1955,6 +2388,103 @@ rel="stylesheet">
 </section>
 
 
+
+<section class="my-4 py-1">
+       
+       <div class="row align-items-center">
+           <div class="col-12 col-md-4 ms-auto me-auto p-lg-4 mt-lg-0 mt-3">
+               <div class="rotating-card-container">
+                   <div
+                   class="card card-rotate card-background card-background-mask-primary shadow-primary mt-md-0 mt-5">
+                   <div class="front front-background"
+                   style="background-image: url(https://images.unsplash.com/photo-1569683795645-b62e50fbf103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80); background-size: cover;">
+                   <div class="card-body py-7 text-center">
+                       <i class="material-icons text-white text-4xl my-3">touch_app</i>
+                       <h3 class="text-white">Touch Here</h3>
+                       <p class="text-white opacity-8 w-100">You are welcomed to Cube holdings Ltd. We are hearing you. </p>
+                   </div>
+               </div>
+               <div class="back back-background"
+               style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
+               <div class="card-body pt-7 text-center">
+                   <h3 class="text-white">Cube Holdings Ltd</h3>
+                   <p class="text-white opacity-8"> A lifestyle behind the walls—  
+       where privacy, comfort, and refined living come together.
+                   </p>
+                   <a href="{{ route('wantToKnowAboutProjects') }}"
+                   class="btn btn-white btn-sm w-50 mx-auto mt-3">Want to know More</a>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+<div class="col-12 col-md-8 mt-4 mt-md-0">
+<div class="row g-4">
+@php
+$customerLinkRaw = $websiteParameter->customer_review_link ?? '';
+$landownerLinkRaw = $websiteParameter->landowner_review_link ?? '';
+$customerHref = filled($customerLinkRaw)
+? (\Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://'])
+   ? trim($customerLinkRaw)
+   : url(trim($customerLinkRaw)))
+: route('customerReviews');
+$landownerHref = filled($landownerLinkRaw)
+? (\Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://'])
+   ? trim($landownerLinkRaw)
+   : url(trim($landownerLinkRaw)))
+: route('landownerReviews');
+$customerExternal = filled($customerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://']);
+$landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://']);
+@endphp
+
+<!-- Customer Reviews -->
+<div class="col-12">
+<div class="review-card customer-card">
+<div class="review-icon">
+   <i class="material-icons">groups</i>
+</div>
+
+<div class="review-content">
+   <h4>Customer Reviews</h4>
+   <p>
+       Hear directly from our valued clients about their experience
+       with our developments, service quality, and commitment to
+       delivering excellence.
+   </p>
+
+   <a href="{{ $customerHref }}" class="review-btn primary" @if ($customerExternal) target="_blank" rel="noopener noreferrer" @endif>
+       View Customer Reviews
+   </a>
+</div>
+</div>
+</div>
+
+<!-- Landowner Reviews -->
+<div class="col-12">
+<div class="review-card land-card">
+<div class="review-icon">
+   <i class="material-icons">handshake</i>
+</div>
+
+<div class="review-content">
+   <h4>Landowner Reviews</h4>
+   <p>
+       Discover what our land partners say about working with us —
+       from transparent agreements to successful project delivery.
+   </p>
+
+   <a href="{{ $landownerHref }}" class="review-btn secondary" @if ($landownerExternal) target="_blank" rel="noopener noreferrer" @endif>
+       View Landowner Reviews
+   </a>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</section>
  
         @if($websiteParameter->front_team_show)
         @isset($featured_teams)
@@ -2411,6 +2941,75 @@ document.querySelectorAll('.glass-card').forEach(card => {
             e.preventDefault();
         }
     });
+})();
+
+/* Count value animation only (homepage) */
+(function(){
+    function clamp(v, min, max){ return Math.min(max, Math.max(min, v)); }
+
+    function formatNumber(value, format){
+        if (format === 'plain') return Math.round(value).toString();
+        var abs = Math.abs(value);
+        var unit = '';
+        var num = value;
+        if (abs >= 1e9) { num = value / 1e9; unit = 'B'; }
+        else if (abs >= 1e6) { num = value / 1e6; unit = 'M'; }
+        else if (abs >= 1e3) { num = value / 1e3; unit = 'K'; }
+        else { return Math.round(value).toString(); }
+
+        var rounded = Math.round(num * 10) / 10; // 1 decimal max
+        if (Math.abs(rounded - Math.round(rounded)) < 1e-9) rounded = Math.round(rounded);
+        return String(rounded) + unit;
+    }
+
+    function animateCount(el){
+        if (!el || el.dataset.counted === '1') return;
+        el.dataset.counted = '1';
+
+        var target = Number(el.getAttribute('data-target') || '0');
+        var suffix = el.getAttribute('data-suffix') || '';
+        var format = el.getAttribute('data-format') || 'plain';
+        var duration = clamp(Number(el.getAttribute('data-duration') || '1400'), 600, 2600);
+
+        var start = 0;
+        var startTs = null;
+
+        function step(ts){
+            if (startTs === null) startTs = ts;
+            var p = clamp((ts - startTs) / duration, 0, 1);
+            var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+            var current = start + (target - start) * eased;
+            el.textContent = formatNumber(current, format) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+            else el.textContent = formatNumber(target, format) + suffix;
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    var statsSection = document.getElementById('count-stats');
+    if (!statsSection) return;
+
+    var countEls = Array.prototype.slice.call(statsSection.querySelectorAll('.js-count'));
+    if (!countEls.length) return;
+
+    function run(){
+        countEls.forEach(animateCount);
+    }
+
+    if ('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if (entry.isIntersecting){
+                    run();
+                    io.disconnect();
+                }
+            });
+        }, { root: null, threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+        io.observe(statsSection);
+    } else {
+        run();
+    }
 })();
 
 </script>

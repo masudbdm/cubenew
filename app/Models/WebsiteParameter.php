@@ -37,4 +37,9 @@ class WebsiteParameter extends Model
     {
        return $this->featured_video ? 'storage/featured-video/'.$this->featured_video : null;
     }
+
+    public function countSectionImage()
+    {
+       return $this->count_section_image ? 'storage/count-stats/'.$this->count_section_image : null;
+    }
 }

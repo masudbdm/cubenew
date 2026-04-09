@@ -47,6 +47,14 @@ class AdminDashboardController extends Controller
 
             'meta_keyword' => 'max:255',
             'featured_video'   => 'nullable|mimes:mp4,webm,mov|max:614400',
+            'count_section_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'count_section_title' => 'nullable|max:255',
+            'count_stat_1' => 'nullable|integer|min:0',
+            'count_stat_2' => 'nullable|integer|min:0',
+            'count_stat_3' => 'nullable|integer|min:0',
+            'count_stat_4' => 'nullable|integer|min:0',
+            'count_stat_5' => 'nullable|integer|min:0',
+            'count_stat_6' => 'nullable|integer|min:0',
             'primary_color'    => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'secondary_color'  => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'hero_type' => 'required|in:image,video',
@@ -101,6 +109,16 @@ class AdminDashboardController extends Controller
         $post->front_team_show = $request->front_team_show ? 1 : 0;
         $post->google_map_code_contact = $request->google_map_code_contact;
         $post->google_map_code = $request->google_map_code;
+
+        // Homepage count-stats section
+        $post->count_section_title = $request->count_section_title;
+        $post->count_section_subtitle = $request->count_section_subtitle;
+        $post->count_stat_1 = $request->count_stat_1;
+        $post->count_stat_2 = $request->count_stat_2;
+        $post->count_stat_3 = $request->count_stat_3;
+        $post->count_stat_4 = $request->count_stat_4;
+        $post->count_stat_5 = $request->count_stat_5;
+        $post->count_stat_6 = $request->count_stat_6;
 
         
         if ($request->news_editions) {
@@ -166,6 +184,17 @@ class AdminDashboardController extends Controller
 
                 $post->featured_video = $name;
             }
+
+        if ($request->hasFile('count_section_image')) {
+            if ($post->count_section_image) {
+                Storage::disk('public')->delete('count-stats/'.$post->count_section_image);
+            }
+
+            $img = $request->file('count_section_image');
+            $name = time().'_'.$img->getClientOriginalName();
+            Storage::disk('public')->put('count-stats/'.$name, File::get($img));
+            $post->count_section_image = $name;
+        }
 
 
 

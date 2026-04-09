@@ -246,6 +246,142 @@
 
                             </div>
 
+                            <hr>
+
+                            <div class="form-group">
+                                <label class="mb-2"><b>Homepage Count Section</b></label>
+                                <p class="text-muted mb-2">Controls the stats numbers, title/subtitle and image for the homepage count section.</p>
+                            </div>
+
+                            <div class="form-group {{ $errors->has('count_section_title') ? ' has-error' : '' }}">
+                                <label for="count_section_title" class="control-label">Count Section Title</label>
+                                <input type="text"
+                                       name="count_section_title"
+                                       id="count_section_title"
+                                       class="form-control"
+                                       value="{{ old('count_section_title') ?: ($post->count_section_title ?? '') }}"
+                                       placeholder="e.g. Witness, as we transform your land to a landmark"
+                                       autocomplete="off">
+                                @if ($errors->has('count_section_title'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('count_section_title') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('count_section_subtitle') ? ' has-error' : '' }}">
+                                <label for="count_section_subtitle" class="control-label">Count Section Subtitle</label>
+                                <textarea name="count_section_subtitle"
+                                          id="count_section_subtitle"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="Short subtitle text...">{{ old('count_section_subtitle') ?: ($post->count_section_subtitle ?? '') }}</textarea>
+                                @if ($errors->has('count_section_subtitle'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('count_section_subtitle') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group {{ $errors->has('count_stat_1') ? ' has-error' : '' }}">
+                                        <label for="count_stat_1" class="control-label">Stat 1 Value</label>
+                                        <input type="number" min="0" name="count_stat_1" id="count_stat_1" class="form-control"
+                                               value="{{ old('count_stat_1') ?: ($post->count_stat_1 ?? '') }}"
+                                               placeholder="11000000">
+                                        @if ($errors->has('count_stat_1'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('count_stat_1') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group {{ $errors->has('count_stat_2') ? ' has-error' : '' }}">
+                                        <label for="count_stat_2" class="control-label">Stat 2 Value</label>
+                                        <input type="number" min="0" name="count_stat_2" id="count_stat_2" class="form-control"
+                                               value="{{ old('count_stat_2') ?: ($post->count_stat_2 ?? '') }}"
+                                               placeholder="21">
+                                        @if ($errors->has('count_stat_2'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('count_stat_2') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group {{ $errors->has('count_stat_3') ? ' has-error' : '' }}">
+                                        <label for="count_stat_3" class="control-label">Stat 3 Value</label>
+                                        <input type="number" min="0" name="count_stat_3" id="count_stat_3" class="form-control"
+                                               value="{{ old('count_stat_3') ?: ($post->count_stat_3 ?? '') }}"
+                                               placeholder="63">
+                                        @if ($errors->has('count_stat_3'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('count_stat_3') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group {{ $errors->has('count_stat_4') ? ' has-error' : '' }}">
+                                        <label for="count_stat_4" class="control-label">Stat 4 Value</label>
+                                        <input type="number" min="0" name="count_stat_4" id="count_stat_4" class="form-control"
+                                               value="{{ old('count_stat_4') ?: ($post->count_stat_4 ?? '') }}"
+                                               placeholder="100">
+                                        @if ($errors->has('count_stat_4'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('count_stat_4') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group {{ $errors->has('count_stat_5') ? ' has-error' : '' }}">
+                                        <label for="count_stat_5" class="control-label">Stat 5 Value</label>
+                                        <input type="number" min="0" name="count_stat_5" id="count_stat_5" class="form-control"
+                                               value="{{ old('count_stat_5') ?: ($post->count_stat_5 ?? '') }}"
+                                               placeholder="1500">
+                                        @if ($errors->has('count_stat_5'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('count_stat_5') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group {{ $errors->has('count_stat_6') ? ' has-error' : '' }}">
+                                        <label for="count_stat_6" class="control-label">Stat 6 Value</label>
+                                        <input type="number" min="0" name="count_stat_6" id="count_stat_6" class="form-control"
+                                               value="{{ old('count_stat_6') ?: ($post->count_stat_6 ?? '') }}"
+                                               placeholder="18000000">
+                                        @if ($errors->has('count_stat_6'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('count_stat_6') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group {{ $errors->has('count_section_image') ? ' has-error' : '' }}">
+                                <label for="count_section_image" class="control-label">Count Section Image (Right side)</label>
+                                <input type="file" name="count_section_image" id="count_section_image" class="form-control" accept="image/*">
+                                <span class="help-block">Recommended: tall building image (PNG/WebP), transparent background preferred.</span>
+                                @if ($errors->has('count_section_image'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('count_section_image') }}</strong>
+                                </span>
+                                @endif
+
+                                @if(!empty($post->count_section_image))
+                                    <div class="mt-2">
+                                        <img src="{{ asset($post->countSectionImage()) }}" class="img-responsive" style="max-height:160px;">
+                                        <div class="text-muted small">Current: {{ $post->count_section_image }}</div>
+                                    </div>
+                                @endif
+                            </div>
+
 
                         </div>
                     </div>
