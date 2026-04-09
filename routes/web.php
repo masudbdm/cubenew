@@ -64,6 +64,8 @@ Route::get('/donate', [WelcomeController::class, 'donateNow'])->name('donateNow'
 Route::get('/want-to-know-about-projects', [WelcomeController::class, 'donationNeeded'])->name('wantToKnowAboutProjects');
 Route::get('/all-brochures', [WelcomeController::class, 'allbrochures'])->name('allbrochures');
 
+Route::get('/project-search', [WelcomeController::class, 'projectSearch'])->name('user.projectSearch');
+
 Route::get('/customer-reviews', [WelcomeController::class, 'customerReviews'])->name('customerReviews');
 
 Route::get('/landowner-reviews', [WelcomeController::class, 'landownerReviews'])->name('landownerReviews');

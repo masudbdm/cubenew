@@ -890,6 +890,619 @@ rel="stylesheet">
     }
 }
 
+/* ========== Homepage project search — premium animated ========== */
+.project-search-wrap {
+    position: relative;
+    perspective: 1200px;
+    z-index: 30; /* keep dropdown above following sections */
+}
+
+.project-search-wrap .container {
+    position: relative;
+    z-index: 1;
+}
+
+.project-search-wrap .project-search-form .row {
+    overflow: visible;
+}
+
+.brochures-banner-wrap {
+    position: relative;
+    z-index: 1;
+}
+
+.project-search-shell {
+    position: relative;
+    border-radius: 1.5rem;
+    padding: 2px;
+    overflow: visible;
+    z-index: 31;
+    background: linear-gradient(
+        125deg,
+        rgba(255, 255, 255, 0.95),
+        rgba(248, 250, 252, 0.88),
+        rgba(255, 255, 255, 0.92)
+    );
+    box-shadow:
+        0 4px 6px rgba(15, 23, 42, 0.04),
+        0 24px 48px rgba(15, 23, 42, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+    animation: psShellIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.project-search-shell::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(
+        var(--ps-angle, 135deg),
+        {{ $websiteParameter->primary_color }}88,
+        {{ $websiteParameter->secondary_color ?? $websiteParameter->primary_color }}aa,
+        #6366f1aa,
+        {{ $websiteParameter->primary_color }}99
+    );
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: psBorderFlow 8s ease infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.project-search-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: calc(1.5rem - 2px);
+    background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(255, 255, 255, 0.65), transparent 50%),
+        radial-gradient(ellipse 70% 50% at 100% 100%, {{ $websiteParameter->primary_color }}18, transparent 55%),
+        linear-gradient(165deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.85) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.project-search-shell__glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, {{ $websiteParameter->primary_color }}35 0%, transparent 70%);
+    top: -80px;
+    right: -40px;
+    filter: blur(20px);
+    animation: psOrbFloat 9s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.project-search-shell__glow--2 {
+    width: 160px;
+    height: 160px;
+    left: -50px;
+    bottom: -60px;
+    top: auto;
+    right: auto;
+    background: radial-gradient(circle, {{ $websiteParameter->secondary_color ?? $websiteParameter->primary_color }}30 0%, transparent 70%);
+    animation-delay: -4s;
+    animation-duration: 11s;
+}
+
+.project-search-shell__inner {
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem 1.35rem 1.6rem;
+    border-radius: calc(1.5rem - 2px);
+}
+
+@media (min-width: 768px) {
+    .project-search-shell__inner {
+        padding: 1.75rem 1.85rem 1.85rem;
+    }
+}
+
+.project-search-head {
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .project-search-head {
+        text-align: left;
+        margin-bottom: 1.35rem;
+    }
+}
+
+.project-search-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: {{ $websiteParameter->primary_color }};
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.65));
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+    animation: psBadgePulse 3.5s ease-in-out infinite;
+}
+
+.project-search-title {
+    font-family: 'Bebas Neue', 'Raleway', sans-serif;
+    font-size: clamp(1.65rem, 4vw, 2.15rem);
+    line-height: 1.15;
+    margin: 0.65rem 0 0.35rem;
+    letter-spacing: 0.02em;
+    background: linear-gradient(
+        120deg,
+        #1e293b 0%,
+        #334155 40%,
+        {{ $websiteParameter->primary_color }} 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: psTitleShine 6s ease-in-out infinite;
+}
+
+.project-search-lead {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #64748b;
+    max-width: 36rem;
+}
+
+@media (min-width: 768px) {
+    .project-search-lead {
+        margin-left: 0;
+    }
+}
+
+.project-search-wrap .ps-field {
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+}
+
+.project-search-wrap .ps-field:has(.project-search-choices.is-open) {
+    z-index: 50;
+}
+
+.ps-field label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.45rem;
+    transition: color 0.25s ease;
+}
+
+.ps-field:focus-within label {
+    color: {{ $websiteParameter->primary_color }};
+}
+
+.ps-select-wrap {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 0 0 0 rgba(99, 102, 241, 0);
+    transition:
+        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.25s ease,
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: visible;
+}
+
+.ps-select-wrap:hover {
+    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow:
+        0 4px 16px rgba(15, 23, 42, 0.07),
+        0 0 0 3px {{ $websiteParameter->primary_color }}14;
+    transform: none;
+}
+
+.ps-field:focus-within .ps-select-wrap {
+    border-color: {{ $websiteParameter->primary_color }}55;
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.1),
+        0 0 0 4px {{ $websiteParameter->primary_color }}22;
+    transform: none;
+}
+
+.ps-select-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.65rem;
+    flex-shrink: 0;
+    color: {{ $websiteParameter->primary_color }};
+    font-size: 0.95rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(248, 250, 252, 0.3));
+    border-right: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.ps-select {
+    flex: 1;
+    min-width: 0;
+    border: none !important;
+    background: transparent !important;
+    padding: 0.72rem 2.25rem 0.72rem 0.65rem !important;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #1e293b;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    appearance: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.ps-select:focus {
+    outline: none;
+}
+
+.ps-select-wrap::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 0.95rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: transform 0.3s ease, color 0.2s ease;
+}
+
+.ps-field:focus-within .ps-select-wrap::after {
+    color: {{ $websiteParameter->primary_color }};
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Choices.js — custom rounded lucrative dropdown (scoped) */
+.project-search-wrap .project-search-choices {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    margin-bottom: 0 !important;
+}
+
+.project-search-wrap .project-search-choices .choices__inner {
+    min-height: 48px;
+    padding: 0.55rem 2.5rem 0.55rem 0.75rem !important;
+    border-radius: 0 0.7rem 0.7rem 0 !important;
+    border: none !important;
+    background: transparent !important;
+    background-image: none !important;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #1e293b;
+    vertical-align: middle;
+    box-shadow: none !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--single {
+    padding: 0 !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--single .choices__item {
+    margin-bottom: 0 !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--single .choices__item--selectable {
+    margin-bottom: 0 !important;
+}
+
+.project-search-wrap .project-search-choices.is-focused .choices__inner,
+.project-search-wrap .project-search-choices:focus .choices__inner {
+    box-shadow: none !important;
+}
+
+.project-search-wrap .project-search-choices[data-type*="select-one"] .choices__inner {
+    padding-bottom: 0.55rem !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown {
+    /* Ensure closed by default (Choices toggles .is-open) */
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px) scale(0.99);
+    transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.22s;
+
+    /* Force dropdown overlay (no layout push) */
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 100% !important;
+
+    margin-top: 0.45rem !important;
+    border-radius: 1rem !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+        0 4px 6px rgba(15, 23, 42, 0.04),
+        0 18px 40px rgba(15, 23, 42, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.9) inset !important;
+    overflow: hidden;
+    z-index: 9999 !important;
+}
+
+.project-search-wrap .project-search-choices.is-open .choices__list--dropdown {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+    animation: psChoicesReveal 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__list,
+.project-search-wrap .project-search-choices .choices__list--dropdown {
+    max-height: 280px !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__list {
+    max-height: 280px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding: 0.35rem 0 !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item {
+    word-break: break-word;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item--choice {
+    padding: 0.7rem 1rem !important;
+    margin: 0.2rem 0.45rem !important;
+    border-radius: 0.65rem !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+    background: transparent;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item--choice.is-highlighted {
+    background: linear-gradient(
+        135deg,
+        {{ $websiteParameter->primary_color }}18,
+        {{ $websiteParameter->secondary_color ?? $websiteParameter->primary_color }}12
+    ) !important;
+    color: #0f172a !important;
+    transform: translateY(-1px);
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item--choice:hover {
+    background: rgba(248, 250, 252, 0.95) !important;
+}
+
+/* Hide the older selectable rule if it exists (Choices v9 uses __item--choice) */
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item--selectable {
+    padding: 0.72rem 1rem !important;
+    margin: 0.2rem 0.45rem !important;
+    border-radius: 0.65rem !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item--selectable.is-highlighted {
+    background: linear-gradient(
+        135deg,
+        {{ $websiteParameter->primary_color }}18,
+        {{ $websiteParameter->secondary_color ?? $websiteParameter->primary_color }}12
+    ) !important;
+    color: #0f172a !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__item--selectable:hover {
+    background: rgba(248, 250, 252, 0.95) !important;
+}
+
+.project-search-wrap .project-search-choices .choices__list--dropdown .choices__placeholder {
+    opacity: 0.55;
+}
+
+.project-search-wrap .project-search-choices::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 0.95rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: transform 0.3s ease, color 0.2s ease;
+    z-index: 3;
+}
+
+.project-search-wrap .project-search-choices.is-open::after {
+    color: {{ $websiteParameter->primary_color }};
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.ps-select-wrap:has(.project-search-choices)::after {
+    display: none !important;
+}
+
+@keyframes psChoicesReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-search-wrap .project-search-choices .choices__list--dropdown {
+        animation: none !important;
+    }
+}
+
+/* Match .premium-banner .review-btn (E-Brochures) — same cyan→blue, no extra gradient animation */
+.ps-search-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 48px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: #fff !important;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    box-shadow: 0 8px 20px rgba(0, 114, 255, 0.28);
+    transition: all 0.3s ease;
+}
+
+.ps-search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 114, 255, 0.36);
+    color: #fff !important;
+}
+
+.ps-search-btn:active {
+    transform: translateY(-1px);
+}
+
+.ps-search-btn i {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ps-search-btn:hover i {
+    transform: translateX(4px);
+}
+
+@keyframes psShellIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) rotateX(8deg);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes psBorderFlow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes psOrbFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.85;
+    }
+    50% {
+        transform: translate(-12px, 8px) scale(1.08);
+        opacity: 1;
+    }
+}
+
+@keyframes psBadgePulse {
+    0%, 100% {
+        box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+    }
+    50% {
+        box-shadow: 0 4px 20px {{ $websiteParameter->primary_color }}28;
+    }
+}
+
+@keyframes psTitleShine {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-search-shell,
+    .project-search-shell::before,
+    .project-search-badge,
+    .project-search-title,
+    .project-search-shell__glow,
+    .project-search-shell__glow--2 {
+        animation: none !important;
+    }
+    .project-search-shell {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+    .project-search-form .ps-field,
+    .project-search-btn-col {
+        animation: none !important;
+    }
+}
+
+.project-search-form .ps-field {
+    animation: psFieldRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.project-search-form .col-12:nth-child(1) .ps-field {
+    animation-delay: 0.08s;
+}
+.project-search-form .col-12:nth-child(2) .ps-field {
+    animation-delay: 0.16s;
+}
+.project-search-form .col-12:nth-child(3) .ps-field {
+    animation-delay: 0.24s;
+}
+.project-search-btn-col {
+    animation: psFieldRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.32s;
+}
+
+@keyframes psFieldRise {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 </style>
 @endpush
 @section('content')
@@ -1024,35 +1637,116 @@ rel="stylesheet">
 
          
 
- <section class="my-1 py-1 px-2">
+        @isset($projectSearchPayload)
+        <section class="project-search-wrap mb-4 mb-md-5" id="home-project-search" aria-label="Project search">
+            <div class="container px-3 px-md-4">
+                <div class="project-search-shell">
+                    <span class="project-search-shell__glow" aria-hidden="true"></span>
+                    <span class="project-search-shell__glow project-search-shell__glow--2" aria-hidden="true"></span>
+                    <div class="project-search-shell__inner">
+                        <header class="project-search-head">
+                            <span class="project-search-badge">
+                                <i class="fas fa-compass" aria-hidden="true"></i>
+                                Explore projects
+                            </span>
+                            <h2 class="project-search-title">Find your perfect project</h2>
+                            <p class="project-search-lead">
+                                Choose location, category, and subcategory — we’ll show matching developments in one place.
+                            </p>
+                        </header>
 
+                        <form method="get"
+                              action="{{ route('user.projectSearch') }}"
+                              class="project-search-form mb-0">
+                            <div class="row g-3 g-md-3 align-items-end">
+                                <div class="col-12 col-md">
+                                    <div class="ps-field ps-field--location">
+                                        <label for="ps-location">Location</label>
+                                        <div class="ps-select-wrap">
+                                            <span class="ps-select-icon" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></span>
+                                            <select name="location_id"
+                                                    id="ps-location"
+                                                    class="form-control ps-select"
+                                                    required
+                                                    autocomplete="address-level1">
+                                                <option value="">Select location</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md">
+                                    <div class="ps-field ps-field--category">
+                                        <label for="ps-category">Category</label>
+                                        <div class="ps-select-wrap">
+                                            <span class="ps-select-icon" aria-hidden="true"><i class="fas fa-layer-group"></i></span>
+                                            <select name="category_id"
+                                                    id="ps-category"
+                                                    class="form-control ps-select"
+                                                    autocomplete="off">
+                                                <option value="">Select category</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md">
+                                    <div class="ps-field ps-field--sub">
+                                        <label for="ps-subcategory">Subcategory</label>
+                                        <div class="ps-select-wrap">
+                                            <span class="ps-select-icon" aria-hidden="true"><i class="fas fa-tags"></i></span>
+                                            <select name="subcategory_id"
+                                                    id="ps-subcategory"
+                                                    class="form-control ps-select"
+                                                    autocomplete="off">
+                                                <option value="">Select subcategory</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-auto project-search-btn-col">
+                                    <label class="d-none d-lg-block mb-1 small" style="visibility: hidden;">Search</label>
+                                    <button type="submit"
+                                            id="ps-submit"
+                                            class="ps-search-btn w-100">
+                                        <span>Search</span>
+                                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script type="application/json" id="project-search-data">@json($projectSearchPayload)</script>
+        </section>
+        @endisset
 
-            <div class="premium-banner py-6 py-md-5 my-sm-3 mb-3 border-radius-xl"
-                style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/desktop.jpg');"
-                loading="lazy">
-                <span class="mask bg-gradient-dark"></span>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <h4 class="text-white">Built by expert developers</h4>
-                            <h1 class="text-white">Cube Holdings Ltd</h1>
-                            
-                        </div>
+        {{-- Same width as project search: .container.px-3.px-md-4 --}}
+        <section class="brochures-banner-wrap mb-4 mb-md-5" aria-label="Brochures">
+            <div class="container px-3 px-md-4">
+                <div class="premium-banner py-6 py-md-5 border-radius-xl mb-0"
+                    style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/desktop.jpg');"
+                    loading="lazy">
+                    <span class="mask bg-gradient-dark"></span>
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-sm-12 col-md-6">
+                                <h4 class="text-white">Built by expert developers</h4>
+                                <h1 class="text-white">Cube Holdings Ltd</h1>
+                            </div>
 
-                        <div class="col-sm-12 col-md-6 pt-4">
-                            <p class="lead text-white opacity-8">Download E-Brochures of all projects</p>
-                            <a href="{{ route('allbrochures') }}"
-                                class="review-btn text-white icon-move-right w3-border w3-round px-3 py-2">
-                                E-Brochures
-                                <i class="fas fa-arrow-right text-sm ms-1"></i>
-                            </a>
-                            
+                            <div class="col-sm-12 col-md-6 pt-4 pt-md-0">
+                                <p class="lead text-white opacity-8 mb-3">Download E-Brochures of all projects</p>
+                                <a href="{{ route('allbrochures') }}"
+                                    class="review-btn text-white icon-move-right w3-border w3-round px-3 py-2">
+                                    E-Brochures
+                                    <i class="fas fa-arrow-right text-sm ms-1"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
- 
- </section>
+        </section>
 
             <section class="my-4 py-1">
        
@@ -1580,6 +2274,144 @@ document.querySelectorAll('.glass-card').forEach(card => {
     }, 600);
 
 });
+
+(function () {
+    var dataEl = document.getElementById('project-search-data');
+    if (!dataEl) {
+        return;
+    }
+    var data;
+    try {
+        data = JSON.parse(dataEl.textContent);
+    } catch (e) {
+        return;
+    }
+    var locSel = document.getElementById('ps-location');
+    var catSel = document.getElementById('ps-category');
+    var subSel = document.getElementById('ps-subcategory');
+    var form = document.querySelector('#home-project-search .project-search-form');
+    if (!locSel || !catSel || !subSel || !form) {
+        return;
+    }
+
+    var choiceLoc = null;
+    var choiceCat = null;
+    var choiceSub = null;
+    var useChoices = typeof window.Choices === 'function';
+
+    function destroyChoice(inst) {
+        if (inst) {
+            try {
+                inst.destroy();
+            } catch (err) {
+                /* ignore */
+            }
+        }
+        return null;
+    }
+
+    function bindChoices(selectEl) {
+        if (!useChoices) {
+            return null;
+        }
+        return new window.Choices(selectEl, {
+            searchEnabled: false,
+            itemSelectText: '',
+            shouldSort: false,
+            position: 'bottom',
+            allowHTML: false,
+            classNames: {
+                containerOuter: 'choices project-search-choices'
+            }
+        });
+    }
+
+    function categoryName(id) {
+        var c = data.categories.find(function (x) { return Number(x.id) === Number(id); });
+        return c ? c.name : '';
+    }
+    function subName(id) {
+        var s = data.subcategories.find(function (x) { return Number(x.id) === Number(id); });
+        return s ? s.name : '';
+    }
+
+    function fillCategories(locId) {
+        choiceCat = destroyChoice(choiceCat);
+        choiceSub = destroyChoice(choiceSub);
+        catSel.innerHTML = '<option value="">Select category</option>';
+        subSel.innerHTML = '<option value="">Select subcategory</option>';
+        var ids = data.locationCategories[locId] || data.locationCategories[String(locId)] || [];
+        ids.forEach(function (cid) {
+            var opt = document.createElement('option');
+            opt.value = cid;
+            opt.textContent = categoryName(cid);
+            catSel.appendChild(opt);
+        });
+        choiceCat = bindChoices(catSel);
+        choiceSub = bindChoices(subSel);
+    }
+
+    function fillSubcats(locId, catId) {
+        choiceSub = destroyChoice(choiceSub);
+        subSel.innerHTML = '<option value="">Select subcategory</option>';
+        var key = String(locId) + '_' + String(catId);
+        var ids = data.locationCategorySubcategories[key] || [];
+        ids.forEach(function (sid) {
+            var opt = document.createElement('option');
+            opt.value = sid;
+            opt.textContent = subName(sid);
+            subSel.appendChild(opt);
+        });
+        choiceSub = bindChoices(subSel);
+    }
+
+    function resetCatSubEmpty() {
+        choiceCat = destroyChoice(choiceCat);
+        choiceSub = destroyChoice(choiceSub);
+        catSel.innerHTML = '<option value="">Select category</option>';
+        subSel.innerHTML = '<option value="">Select subcategory</option>';
+        choiceCat = bindChoices(catSel);
+        choiceSub = bindChoices(subSel);
+    }
+
+    (data.locations || []).forEach(function (loc) {
+        var opt = document.createElement('option');
+        opt.value = loc.id;
+        opt.textContent = loc.title;
+        locSel.appendChild(opt);
+    });
+
+    choiceLoc = bindChoices(locSel);
+    choiceCat = bindChoices(catSel);
+    choiceSub = bindChoices(subSel);
+
+    locSel.addEventListener('change', function () {
+        var v = this.value;
+        if (!v) {
+            resetCatSubEmpty();
+            return;
+        }
+        fillCategories(parseInt(v, 10));
+    });
+
+    catSel.addEventListener('change', function () {
+        var lid = locSel.value;
+        var cid = this.value;
+        if (!lid || !cid) {
+            choiceSub = destroyChoice(choiceSub);
+            subSel.innerHTML = '<option value="">Select subcategory</option>';
+            choiceSub = bindChoices(subSel);
+            return;
+        }
+        fillSubcats(parseInt(lid, 10), parseInt(cid, 10));
+    });
+
+    form.addEventListener('submit', function (e) {
+        if (!locSel.value || !catSel.value || !subSel.value) {
+            e.preventDefault();
+        }
+    });
+})();
 
 </script>
     @endpush

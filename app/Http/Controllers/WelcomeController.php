@@ -10,6 +10,7 @@ use App\Models\Menu;
 use App\Models\MenuPage;
 use App\Models\Page;
 use App\Models\Post;
+use App\Models\ProjectLocation;
 use App\Models\SubCategory;
 use App\Models\Team;
 use App\Models\PostCategory;
@@ -68,6 +69,9 @@ class WelcomeController extends Controller
                     ->get();
             });
 
+        $projectSearchPayload = Cache::remember('project_search_payload', now()->addHour(), function () {
+            return $this->buildProjectSearchPayload();
+        });
 
         return view('home.welcome', compact(
             'categories',
@@ -75,7 +79,158 @@ class WelcomeController extends Controller
             'postCategories',
             'categoriesPost',
             'pages',
-            'featured_teams'
+            'featured_teams',
+            'projectSearchPayload'
+        ));
+    }
+
+    /**
+     * Data for homepage project search (locations, categories, subcategories, and post-based relations).
+     */
+    private function buildProjectSearchPayload(): array
+    {
+        $locale = app()->getLocale();
+
+        $locations = ProjectLocation::orderBy('title')
+            ->get(['id', 'title'])
+            ->map(fn (ProjectLocation $l) => [
+                'id' => $l->id,
+                'title' => $l->title,
+            ])
+            ->values()
+            ->all();
+
+        $categories = Category::orderBy('drag_id')
+            ->get()
+            ->map(function (Category $c) use ($locale) {
+                return [
+                    'id' => $c->id,
+                    'name' => $c->getTranslation('name', $locale) ?? $c->name,
+                ];
+            })
+            ->values()
+            ->all();
+
+        $subcategories = SubCategory::orderBy('name')
+            ->get()
+            ->map(function (SubCategory $s) use ($locale) {
+                return [
+                    'id' => $s->id,
+                    'category_id' => $s->category_id,
+                    'name' => $s->getTranslation('name', $locale) ?? $s->name,
+                ];
+            })
+            ->values()
+            ->all();
+
+        $locationCategories = [];
+        $locationCategorySubcategories = [];
+
+        $posts = Post::query()
+            ->where('publish_status', 'published')
+            ->whereNotNull('project_location_id')
+            ->with([
+                'categories:id',
+                'subcategories:id,category_id',
+            ])
+            ->select('id', 'project_location_id')
+            ->get();
+
+        foreach ($posts as $post) {
+            $lid = (int) $post->project_location_id;
+            foreach ($post->categories as $cat) {
+                $cid = (int) $cat->id;
+                $locationCategories[$lid][$cid] = true;
+                foreach ($post->subcategories as $sub) {
+                    if ((int) $sub->category_id === $cid) {
+                        $key = $lid . '_' . $cid;
+                        $locationCategorySubcategories[$key][(int) $sub->id] = true;
+                    }
+                }
+            }
+        }
+
+        foreach ($locationCategories as $lid => $cats) {
+            $ids = array_keys($cats);
+            sort($ids);
+            $locationCategories[$lid] = $ids;
+        }
+
+        foreach ($locationCategorySubcategories as $key => $subs) {
+            $ids = array_keys($subs);
+            sort($ids);
+            $locationCategorySubcategories[$key] = $ids;
+        }
+
+        return [
+            'locations' => $locations,
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+            'locationCategories' => $locationCategories,
+            'locationCategorySubcategories' => $locationCategorySubcategories,
+        ];
+    }
+
+    public function projectSearch(Request $request)
+    {
+        $validated = $request->validate([
+            'location_id' => 'required|exists:project_locations,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:sub_categories,id',
+        ]);
+
+        $projectSearchPayload = Cache::remember('project_search_payload', now()->addHour(), function () {
+            return $this->buildProjectSearchPayload();
+        });
+
+        $categories = Cache::remember('home_categories', now()->addDays(7), function () {
+            return Category::orderBy('drag_id')->get();
+        });
+
+        $pages = Cache::remember('home_pages', now()->addDays(7), function () {
+            return Page::orderBy('drag_id')->get();
+        });
+
+        $location = ProjectLocation::findOrFail($validated['location_id']);
+        $category = Category::findOrFail($validated['category_id']);
+        $subcategory = SubCategory::findOrFail($validated['subcategory_id']);
+
+        if ((int) $subcategory->category_id !== (int) $category->id) {
+            abort(404);
+        }
+
+        $posts = Post::query()
+            ->where('publish_status', 'published')
+            ->where('project_location_id', $location->id)
+            ->whereHas('categories', function ($q) use ($category) {
+                $q->where('categories.id', $category->id);
+            })
+            ->whereHas('subcategories', function ($q) use ($subcategory) {
+                $q->where('sub_categories.id', $subcategory->id);
+            })
+            ->latest()
+            ->paginate(24)
+            ->withQueryString();
+
+        $postsForRightSidebar = Post::where('publish_status', 'published')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $metaTitle = $location->title . ' · ' . $category->name . ' · ' . $subcategory->name;
+        $metaDescription = Str::limit(strip_tags($location->title . ' — ' . $category->name . ' — ' . $subcategory->name), 160);
+
+        return view('home.projectSearch', compact(
+            'projectSearchPayload',
+            'categories',
+            'pages',
+            'posts',
+            'postsForRightSidebar',
+            'location',
+            'category',
+            'subcategory',
+            'metaTitle',
+            'metaDescription'
         ));
     }
 
