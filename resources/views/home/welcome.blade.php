@@ -1035,7 +1035,7 @@ rel="stylesheet">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <h4 class="text-white">Built by expert developers</h4>
-                            <h1 class="text-white">Cube Holdings Limited</h1>
+                            <h1 class="text-white">Cube Holdings Ltd</h1>
                             
                         </div>
 
@@ -1066,13 +1066,13 @@ rel="stylesheet">
                                 <div class="card-body py-7 text-center">
                                     <i class="material-icons text-white text-4xl my-3">touch_app</i>
                                     <h3 class="text-white">Touch Here</h3>
-                                    <p class="text-white opacity-8 w-100">You are welcomed to Cube holdings Limited. We are hearing you. </p>
+                                    <p class="text-white opacity-8 w-100">You are welcomed to Cube holdings Ltd. We are hearing you. </p>
                                 </div>
                             </div>
                             <div class="back back-background"
                             style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
                             <div class="card-body pt-7 text-center">
-                                <h3 class="text-white">Cube Holdings Limited</h3>
+                                <h3 class="text-white">Cube Holdings Ltd</h3>
                                 <p class="text-white opacity-8"> A lifestyle behind the walls—  
                     where privacy, comfort, and refined living come together.
                                 </p>

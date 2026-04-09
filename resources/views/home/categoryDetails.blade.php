@@ -65,30 +65,7 @@
                 {{-- <label class="m-0" for="">Posts</label> --}}
                 <ul class="list-group list-group-flush">
                     @foreach ($postsForRightSidebar as $post)
-                        <li class="list-group-item mx-0 px-0">
-                            <a href="{{ route('user.postDetails', [$post,Str::slug($post->title)]) }}">
-                                <div class="card">
-                                    <div class="card-body p-1">
-                                        <div class="row d-flex justify-content-center align-items-center">
-                                            <div class="col-4 pl-0">
-                                                <img src="{{ route('imagecache', ['template' => 'cpmd', 'filename' => $post->fi()]) }}" alt=""
-                                                    class="img-fluid rounded" style="">
-                                            </div>
-                                            <div class="col-8 p-1">
-                                                <div class="" >
-                                                    <span class="text-bold"
-                                                        style="font-size: 1.0 em;">{!! Str::limit($post->title, 45, '...') !!}</span>
-                                                    <br>
-                                                    <span style="font-size: 15px;">{!! Str::limit($post->excerpt, 25, '...') !!}</span>
-                                                    <br>
-                                                    <span class="">Read more...</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+                        @include('home.partials.sidebarPostRow', ['post' => $post])
                     @endforeach
                 </ul>
             </div>

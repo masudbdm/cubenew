@@ -276,7 +276,7 @@ background-position:300%;
 
 <div class="container">
 
-<h1>Careers at Cube Holdings Limited</h1>
+<h1>Careers at Cube Holdings Ltd</h1>
 
 <p>
 Join a forward-thinking organization where innovation, integrity,
@@ -303,7 +303,7 @@ and excellence drive everything we do.
 <div class="section-title">
 <h2>Why Work With Us</h2>
 <p>
-Cube Holdings Limited is committed to building a professional,
+Cube Holdings Ltd is committed to building a professional,
 innovative and collaborative workplace.
 </p>
 </div>
@@ -318,7 +318,7 @@ innovative and collaborative workplace.
 <h5>Innovative Environment</h5>
 
 <p>
-At Cube Holdings Limited we continuously encourage creativity,
+At Cube Holdings Ltd we continuously encourage creativity,
 innovation and new ideas that help drive business success.
 </p>
 
@@ -403,7 +403,7 @@ and personal well-being.
 <h5>Future Opportunities</h5>
 
 <p>
-Cube Holdings Limited continues to grow,
+Cube Holdings Ltd continues to grow,
 creating exciting career opportunities for talented individuals.
 </p>
 
@@ -427,7 +427,7 @@ creating exciting career opportunities for talented individuals.
 
 <p>
 If you are passionate about building your career with
-Cube Holdings Limited, send your resume to our HR team.
+Cube Holdings Ltd, send your resume to our HR team.
 </p>
 
 <a href="mailto:{{ $websiteParameter->contact_email }}"
