@@ -51,19 +51,17 @@ class WelcomeController extends Controller
             return PostCategory::all();
         });
 
-        $posts = Cache::remember('home_posts_masonry_32', now()->addDays(7), function () {
-            return Post::query()
-                ->where('publish_status', 'published')
-                ->where('front_slider', true)
-                ->with([
-                    'location:id,title',
-                    'categories:id,name',
-                ])
-                ->orderByRaw('drag_id IS NULL, drag_id ASC')
-                ->orderBy('id', 'desc')
-                ->limit(32)
-                ->get();
-        });
+        $posts = Post::query()
+            ->where('publish_status', 'published')
+            ->where('front_slider', true)
+            ->with([
+                'location:id,title',
+                'categories:id,name',
+            ])
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderBy('id', 'desc')
+            ->paginate(32)
+            ->withPath(route('ajax.home.masonryPosts'));
 
         $pages = Cache::remember('home_pages', now()->addDays(7), function () {
             return Page::orderBy('drag_id')->get();
@@ -90,6 +88,32 @@ class WelcomeController extends Controller
             'featured_teams',
             'projectSearchPayload'
         ));
+    }
+
+    public function homeMasonryPosts(Request $request)
+    {
+        $posts = Post::query()
+            ->where('publish_status', 'published')
+            ->where('front_slider', true)
+            ->with([
+                'location:id,title',
+                'categories:id,name',
+            ])
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderBy('id', 'desc')
+            ->paginate(32);
+
+        $startIndex = ($posts->currentPage() - 1) * $posts->perPage();
+
+        $html = view('home.partials.homeMasonryItems', [
+            'posts' => $posts,
+            'startIndex' => $startIndex,
+        ])->render();
+
+        return response()->json([
+            'html' => $html,
+            'next_page_url' => $posts->nextPageUrl(),
+        ]);
     }
 
     /**

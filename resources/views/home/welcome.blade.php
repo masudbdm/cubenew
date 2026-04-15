@@ -1919,8 +1919,28 @@ rel="stylesheet">
 
  
 
-        {{-- (Removed) category list cards --}}
-
+<section class="mb-3">
+<div class="container  px-3">
+            <div class="row">
+                @foreach ($categoriesPost as $category)
+                <div class="col-md-4 col-12">
+                    <a href="{{ route('user.categoryDetails', $category) }}" class="text-primary icon-move-right">
+                        <div class="glass-card elevation-2 mb-3 mx-2 border-success-" style="height: 120px">
+                            <div class="card-body p-1">
+                                <h4 class="card-title w3-large text-center font-weight-bold text-success- ">
+                                    {{ Str::limit($category->name, 20, '...') }}</h4>
+                                    <p class="card-text text-justify- px-2 w3-text-black text-center">
+                                        {{ Str::limit($category->description_en, 85, '...') }}
+                                        <br>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            </section>
          
 
         @isset($projectSearchPayload)
@@ -2007,7 +2027,7 @@ rel="stylesheet">
         @endisset
 
         {{-- Same width as project search: .container.px-3.px-md-4 --}}
-        <section class="brochures-banner-wrap mb-4 mb-md-5" aria-label="Brochures">
+        <!-- <section class="brochures-banner-wrap mb-4 mb-md-5" aria-label="Brochures">
             <div class="container px-3 px-md-4">
                 <div class="premium-banner py-6 py-md-5 border-radius-xl mb-0"
                     style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/desktop.jpg');"
@@ -2032,7 +2052,7 @@ rel="stylesheet">
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
 
 
@@ -2158,41 +2178,18 @@ rel="stylesheet">
       </div>
     </div>
 
-    <div class="home-masonry">
-      @foreach($posts as $i => $post)
-        @php
-          $heightClass = 'h-' . (($i % 5) + 1);
-          $firstCategory = optional($post->categories->first())->name;
-          $locationTitle = optional($post->location)->title;
-        @endphp
-        <div class="home-masonry__item">
-          <a class="home-masonry__card"
-             href="{{ route('user.postDetails', [$post, \Illuminate\Support\Str::slug($post->title)]) }}"
-             aria-label="{{ $post->title }}">
-            <img
-              class="home-masonry__img {{ $heightClass }}"
-              src="{{ route('imagecache', ['template' => 'pnilg', 'filename' => $post->fi()]) }}"
-              alt=""
-              loading="lazy"
-              decoding="async"
-            >
-            <span class="home-masonry__overlay">
-              <span>
-                <span class="home-masonry__title">{{ $post->title }}</span>
-                <span class="home-masonry__meta">
-                  @if($locationTitle)
-                    <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i>{{ $locationTitle }}</span>
-                  @endif
-                  @if($firstCategory)
-                    <span><i class="fa-solid fa-tag" aria-hidden="true"></i>{{ $firstCategory }}</span>
-                  @endif
-                </span>
-              </span>
-            </span>
-          </a>
-        </div>
-      @endforeach
+    <div class="home-masonry" id="homeMasonryGrid">
+      @include('home.partials.homeMasonryItems', ['posts' => $posts, 'startIndex' => 0])
     </div>
+
+    <div class="text-center mt-3" id="homeMasonryLoader" style="display:none;">
+      <div class="spinner-border" role="status" aria-label="Loading"></div>
+    </div>
+
+    <div id="homeMasonrySentinel"
+         data-next-url="{{ $posts->nextPageUrl() }}"
+         data-end="0"
+         style="height: 1px;"></div>
   </div>
 </section>
 
@@ -2816,6 +2813,75 @@ document.querySelectorAll('.glass-card').forEach(card => {
         io.observe(statsSection);
     } else {
         run();
+    }
+})();
+
+/* Homepage masonry infinite scroll (4 per page) */
+(function () {
+    var sentinel = document.getElementById('homeMasonrySentinel');
+    var grid = document.getElementById('homeMasonryGrid');
+    var loader = document.getElementById('homeMasonryLoader');
+    if (!sentinel || !grid) return;
+
+    var nextUrl = sentinel.getAttribute('data-next-url') || '';
+    var isLoading = false;
+    var ended = sentinel.getAttribute('data-end') === '1';
+
+    function setLoading(on) {
+        if (!loader) return;
+        loader.style.display = on ? '' : 'none';
+    }
+
+    function markEnded() {
+        ended = true;
+        sentinel.setAttribute('data-end', '1');
+        nextUrl = '';
+        sentinel.setAttribute('data-next-url', '');
+        setLoading(false);
+    }
+
+    async function loadMore() {
+        if (isLoading || ended || !nextUrl) return;
+        isLoading = true;
+        setLoading(true);
+
+        try {
+            var res = await fetch(nextUrl, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            if (!res.ok) throw new Error('Request failed');
+            var data = await res.json();
+
+            if (data && data.html) {
+                grid.insertAdjacentHTML('beforeend', data.html);
+            }
+
+            nextUrl = (data && data.next_page_url) ? data.next_page_url : '';
+            sentinel.setAttribute('data-next-url', nextUrl || '');
+            if (!nextUrl) {
+                markEnded();
+            }
+        } catch (e) {
+            // silent fail; allow retry on next intersection
+        } finally {
+            isLoading = false;
+            setLoading(false);
+        }
+    }
+
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) loadMore();
+            });
+        }, { root: null, threshold: 0.1, rootMargin: '600px 0px 600px 0px' });
+        io.observe(sentinel);
+    } else {
+        window.addEventListener('scroll', function () {
+            if (ended || isLoading || !nextUrl) return;
+            var rect = sentinel.getBoundingClientRect();
+            if (rect.top - window.innerHeight < 800) loadMore();
+        }, { passive: true });
     }
 })();
 

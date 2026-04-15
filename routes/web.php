@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Crypt;
 
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('user.welcome');
+Route::get('/ajax/home/masonry-posts', [WelcomeController::class, 'homeMasonryPosts'])->name('ajax.home.masonryPosts');
 
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('seo.sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('seo.robots');
