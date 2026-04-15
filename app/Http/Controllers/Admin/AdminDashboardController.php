@@ -47,7 +47,7 @@ class AdminDashboardController extends Controller
 
             'meta_keyword' => 'max:255',
             'featured_video'   => 'nullable|mimes:mp4,webm,mov|max:614400',
-            'count_section_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'count_section_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:12228',
             'count_section_title' => 'nullable|max:255',
             'count_stat_1' => 'nullable|integer|min:0',
             'count_stat_2' => 'nullable|integer|min:0',
@@ -58,6 +58,7 @@ class AdminDashboardController extends Controller
             'primary_color'    => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'secondary_color'  => 'nullable|regex:/^#[0-9A-Fa-f]{6}$/',
             'hero_type' => 'required|in:image,video',
+            'instagram_url' => 'nullable|max:500',
         ]);
 
         if($validation->fails())
@@ -97,6 +98,7 @@ class AdminDashboardController extends Controller
         $post->fb_page_link = $request->fb_url;
         $post->fb_page_code = $request->fb_page_code;
         $post->youtube_url = $request->youtube_url;
+        $post->instagram_url = $request->instagram_url;
         $post->customer_review_link = $request->customer_review_link;
         $post->landowner_review_link = $request->landowner_review_link;
         $post->contact_mobile = $request->contact_mobile;

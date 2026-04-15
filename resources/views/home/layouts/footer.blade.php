@@ -170,6 +170,11 @@
                         <i class="fab fa-youtube"></i>
                     </a>
                 @endif
+                @if(!empty($websiteParameter->instagram_url))
+                    <a class="footer-social__link" href="{{ url($websiteParameter->instagram_url) }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                @endif
             </div>
         </div>
     </div>

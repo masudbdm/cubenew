@@ -566,6 +566,19 @@
                                         @endif
                                     </div>
 
+                                    <div class="form-group {{ $errors->has('instagram_url') ? ' has-error' : '' }}">
+                                        <label for="instagram_url" class="control-label">Instagram Url</label>
+
+                                        <input type="text" name="instagram_url" class="form-control"
+                                        value="{{ old('instagram_url') ?: $post->instagram_url ?? '' }}" id="instagram_url"
+                                        placeholder="https://www.instagram.com/yourusername" autocomplete="off">
+                                        @if ($errors->has('instagram_url'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('instagram_url') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
+
                                     <div class="form-group {{ $errors->has('customer_review_link') ? ' has-error' : '' }}">
                                         <label for="customer_review_link" class="control-label">Customer review link</label>
 

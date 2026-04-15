@@ -904,7 +904,7 @@ margin-top:14px;
 @if($post->engineer_name)
           <div class="col-md-6 mb-3">
             <div class="highlight-box">
-              <strong>Engineer Name</strong><br>
+              <strong>Architect Name</strong><br>
               {{ $post->engineer_name }}
             </div>
           </div>
