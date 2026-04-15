@@ -39,6 +39,7 @@ class WelcomeController extends Controller
         $categoriesPost = Cache::remember('home_categories_post', now()->addDays(7), function () {
             return Category::whereHas('posts')
                 ->orderBy('drag_id')
+                ->with('posts.location')
                 ->get();
         });
 
@@ -50,10 +51,17 @@ class WelcomeController extends Controller
             return PostCategory::all();
         });
 
-        $posts = Cache::remember('home_posts_random_24', now()->addDays(7), function () {
-            return Post::where('publish_status', '<>', 'temp')
-                ->inRandomOrder()
-                ->limit(24)
+        $posts = Cache::remember('home_posts_masonry_32', now()->addDays(7), function () {
+            return Post::query()
+                ->where('publish_status', 'published')
+                ->where('front_slider', true)
+                ->with([
+                    'location:id,title',
+                    'categories:id,name',
+                ])
+                ->orderByRaw('drag_id IS NULL, drag_id ASC')
+                ->orderBy('id', 'desc')
+                ->limit(32)
                 ->get();
         });
 
@@ -871,6 +879,7 @@ public function information(Request $request)
         $categoriesPost = Cache::remember('home_categories_post', now()->addDays(7), function () {
             return Category::whereHas('posts')
                 ->orderBy('drag_id')
+                ->with('posts.location')
                 ->get();
         });
 

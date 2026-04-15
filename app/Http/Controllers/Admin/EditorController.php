@@ -70,8 +70,33 @@ class EditorController extends Controller
     public function allPost()
     {
         menuSubmenu('post', 'allPost');
-        $posts = Post::latest()->where('publish_status', '!=', 'temp')->get();
+        $posts = Post::query()
+            ->where('publish_status', '!=', 'temp')
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderByDesc('id')
+            ->with(['categories', 'subcategories', 'location'])
+            ->get();
         return view('admin.post.allPosts', compact('posts'));
+    }
+
+    public function reorderPosts(Request $request)
+    {
+        $data = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $ids = array_values(array_unique($data['ids']));
+
+        DB::transaction(function () use ($ids) {
+            foreach ($ids as $index => $id) {
+                Post::where('id', $id)->update(['drag_id' => $index + 1]);
+            }
+        });
+
+        Cache::flush();
+
+        return response()->json(['ok' => true]);
     }
 
     public function storePost(Request $request)

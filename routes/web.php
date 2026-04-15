@@ -199,6 +199,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('edit/post/{post}', [EditorController::class, 'editPost'])->name('admin.editPost');
     Route::post('update/post/{post}', [EditorController::class, 'updtePost'])->name('admin.updtePost');
     Route::get('post/{slug}', [EditorController::class, 'viewPost'])->name('admin.viewPost');
+    Route::post('posts/reorder', [EditorController::class, 'reorderPosts'])->name('admin.posts.reorder');
     Route::get('select/tags/or/add', [EditorController::class, 'selectTagsOrAddNew'])->name('admin.selectTagsOrAddNew');
 
     Route::get('post/{post}/applications/{status?}', [EditorController::class, 'postApplications'])

@@ -110,6 +110,125 @@ rel="stylesheet">
 </style>
 
 <style>
+  /* Home masonry (below count section) */
+  .home-masonry {
+    column-gap: 18px;
+  }
+  .home-masonry__item {
+    break-inside: avoid;
+    margin: 0 0 18px;
+  }
+  .home-masonry__card {
+    display: block;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #eef1f6;
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    transform: translateZ(0);
+    transition: transform .35s ease, box-shadow .35s ease, filter .35s ease;
+  }
+  .home-masonry__card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.14);
+  }
+  .home-masonry__img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    filter: saturate(1.02) contrast(1.02);
+    transition: transform .6s ease;
+    transform: scale(1.02);
+    will-change: transform;
+    animation: homeMasonryZoom 12s ease-in-out infinite alternate;
+  }
+
+  /* Slightly different timing per tile (subtle variety) */
+  .home-masonry__item:nth-child(3n) .home-masonry__img { animation-duration: 14s; }
+  .home-masonry__item:nth-child(4n) .home-masonry__img { animation-duration: 16s; }
+  .home-masonry__item:nth-child(5n) .home-masonry__img { animation-duration: 18s; }
+  .home-masonry__item:nth-child(2n) .home-masonry__img { animation-delay: -4s; }
+  .home-masonry__item:nth-child(3n) .home-masonry__img { animation-delay: -7s; }
+
+  /* Hover: pause animation + slightly stronger zoom */
+  .home-masonry__card:hover .home-masonry__img{
+    animation-play-state: paused;
+    transform: scale(1.06);
+  }
+
+  @keyframes homeMasonryZoom{
+    from { transform: scale(1.02); }
+    to { transform: scale(1.10); }
+  }
+
+  /* Varying heights (cycles) */
+  .home-masonry__img.h-1 { height: 180px; }
+  .home-masonry__img.h-2 { height: 260px; }
+  .home-masonry__img.h-3 { height: 340px; }
+  .home-masonry__img.h-4 { height: 220px; }
+  .home-masonry__img.h-5 { height: 300px; }
+
+  .home-masonry__overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:flex-end;
+    padding: 14px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.72) 100%);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .home-masonry__card:hover .home-masonry__overlay{ opacity: 1; }
+  .home-masonry__title{
+    color:#fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.25;
+    margin: 0 0 6px;
+    text-shadow: 0 6px 22px rgba(0,0,0,.35);
+  }
+  .home-masonry__meta{
+    color: rgba(255,255,255,.92);
+    font-size: 12px;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+  .home-masonry__meta span{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+    backdrop-filter: blur(8px);
+  }
+  .home-masonry__meta i{
+    font-size: 12px;
+    opacity: .95;
+  }
+
+  /* Responsive columns */
+  @media (min-width: 1200px) { .home-masonry{ column-count: 4; } }
+  @media (min-width: 992px) and (max-width: 1199.98px) { .home-masonry{ column-count: 3; } }
+  @media (min-width: 768px) and (max-width: 991.98px) { .home-masonry{ column-count: 2; } }
+  @media (max-width: 767.98px) { .home-masonry{ column-count: 1; column-gap: 14px; } }
+
+  @media (prefers-reduced-motion: reduce){
+    .home-masonry__card,
+    .home-masonry__img,
+    .home-masonry__overlay{
+      transition: none !important;
+    }
+    .home-masonry__img{
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<style>
     .glass-icon {
         width: 38px;
         height: 38px;
@@ -661,234 +780,6 @@ rel="stylesheet">
 
 </style>
 <style>
-
-.category-card {
-    transition: all .3s ease;
-}
-
-.category-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 25px 60px rgba(0,0,0,.15);
-}
-
-/* Continuous glassy animation for category images */
-.featured-image-wrapper::after,
-.small-post__thumb::after{
-    content: "";
-    position: absolute;
-    inset: -40% -80%;
-    background: linear-gradient(
-        115deg,
-        rgba(255,255,255,0.00) 0%,
-        rgba(255,255,255,0.10) 18%,
-        rgba(255,255,255,0.22) 28%,
-        rgba(255,255,255,0.08) 38%,
-        rgba(255,255,255,0.00) 55%
-    );
-    transform: translate3d(-35%, 0, 0) rotate(0.001deg);
-    opacity: 0.9;
-    pointer-events: none;
-    mix-blend-mode: overlay;
-    animation: glassSweep 6.5s linear infinite;
-}
-
-.featured-image-wrapper,
-.small-post__thumb{
-    position: relative; /* needed for ::after */
-}
-
-@keyframes glassSweep {
-    0%   { transform: translate3d(-55%, 0, 0) rotate(0.001deg); }
-    100% { transform: translate3d(55%, 0, 0) rotate(0.001deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .featured-image-wrapper::after,
-    .small-post__thumb::after{
-        animation: none;
-        opacity: 0.0;
-    }
-}
-
-/* Featured image — desktop: fill column; mobile: 4:3, less harsh crop */
-.featured-image-wrapper {
-    position: relative;
-    overflow: hidden;
-    min-height: 300px;
-    height: 100%;
-    background: #1a1a1a;
-}
-
-@media (min-width: 768px) {
-    .featured-image-wrapper {
-        min-height: 320px;
-    }
-    .featured-image-wrapper .featured-hero-img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        min-height: 100%;
-        object-fit: cover;
-        object-position: center center;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .featured-image-wrapper .featured-hero-img {
-        position: relative;
-    }
-}
-
-.image-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,.15));
-    pointer-events: none;
-}
-
-.featured-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px 18px 20px;
-    z-index: 2;
-}
-
-.featured-content h3 {
-    line-height: 1.25;
-    margin-bottom: 0.35rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,.45);
-}
-
-.featured-content p {
-    margin-bottom: 0;
-    opacity: .95;
-}
-
-/* Small posts — sidebar list */
-.small-post {
-    transition: .3s ease;
-    background: #fff;
-    align-items: stretch;
-}
-
-.small-post:hover {
-    transform: translateX(5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,.1);
-}
-
-.small-post__thumb {
-    display: block;
-    overflow: hidden;
-    background: #f0f2f5;
-}
-
-.small-post__thumb img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-}
-
-/* Desktop: fixed thumb width */
-@media (min-width: 768px) {
-    .small-post__thumb {
-        width: 132px;
-        min-width: 132px;
-        align-self: stretch;
-    }
-    .small-post__thumb img {
-        min-height: 96px;
-    }
-}
-
-/* Mobile: stack image on top, full width — no narrow strip crop */
-@media (max-width: 767.98px) {
-    .category-card .row.g-0 > [class*="col-"] {
-        border-radius: 0;
-    }
-
-    .category-card .col-md-6.d-flex {
-        min-height: 0;
-    }
-
-    .featured-image-wrapper {
-        min-height: 0;
-        height: auto;
-        flex: 0 0 auto;
-        border-radius: 0.75rem 0.75rem 0 0;
-    }
-
-    .featured-image-wrapper .featured-hero-img {
-        min-height: 0;
-        width: 100%;
-        aspect-ratio: 4 / 3;
-        max-height: min(72vw, 420px);
-        object-fit: cover;
-        object-position: center center;
-    }
-
-    .featured-content {
-        padding: 14px 16px 16px;
-    }
-
-    .featured-content h3 {
-        font-size: 1.1rem;
-    }
-
-    .featured-content p.small {
-        font-size: 0.8125rem;
-        line-height: 1.45;
-    }
-
-    .small-post {
-        flex-direction: column !important;
-        border-radius: 0.75rem !important;
-        overflow: hidden;
-        margin-bottom: 1rem !important;
-    }
-
-    .small-post:hover {
-        transform: translateY(-2px);
-    }
-
-    .small-post__thumb {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-height: none;
-        aspect-ratio: 16 / 10;
-    }
-
-    .small-post__thumb img {
-        min-height: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center center;
-    }
-
-    .small-post .flex-grow-1 {
-        padding: 0.85rem 1rem 1rem !important;
-    }
-
-    .small-post h6 {
-        font-size: 0.9375rem;
-        line-height: 1.35;
-    }
-
-    /* Category block: tighter card padding on phone */
-    .category-card .col-md-6.p-4 {
-        padding: 1rem !important;
-    }
-
-    .category-block-title {
-        font-size: clamp(1.15rem, 4.5vw, 1.5rem);
-        line-height: 1.3;
-    }
-}
 
 /* ========== Homepage project search — premium animated ========== */
 .project-search-wrap {
@@ -2028,29 +1919,7 @@ rel="stylesheet">
 
  
 
-        <section class="mb-5 mt-5">
-        <div class="container px-3 px-md-4">
-            <div class="row">
-                @foreach ($categoriesPost as $category)
-                <div class="col-md-4 col-12">
-                    <a href="{{ route('user.categoryDetails', $category) }}" class="text-primary icon-move-right">
-                        <div class="glass-card elevation-2 mb-3 mx-2 border-success-" style="height: 120px">
-                            <div class="card-body p-1">
-                                <h4 class="card-title w3-large text-center font-weight-bold text-success- ">
-                                    {{ Str::limit($category->name, 20, '...') }}</h4>
-                                    <p class="card-text text-justify- px-2 w3-text-black text-center">
-                                        {{ Str::limit($category->description_en, 85, '...') }}
-                                        <br>
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            </section>
-            {{-- End Categories --}}
+        {{-- (Removed) category list cards --}}
 
          
 
@@ -2279,115 +2148,53 @@ rel="stylesheet">
     </div>
 </section>
  
- <section class="my-5">
-
-<div class="container">
-
-@foreach ($categoriesPost as $category)
-
-<div class="row mb-5">
-    <div class="col-12">
-
-        <!-- Category Header -->
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 gap-md-3 mb-3">
-            <h2 class="fw-bold mb-0 flex-grow-1 me-2 category-block-title">
-                <a href="{{ route('user.categoryDetails',$category) }}" 
-                   class="text-dark text-decoration-none">
-                   {{ $category->name }}
-                </a>
-            </h2>
-            <a href="{{ route('user.categoryDetails',$category) }}" 
-               class="btn btn-sm btn-outline-dark rounded-pill px-3 flex-shrink-0">
-               View All
-            </a>
-        </div>
-
-        <!-- Category Card -->
-        <div class="card border-0 shadow-lg rounded-4 overflow-hidden category-card">
-
-            <div class="row g-0 align-items-stretch">
-
-                <!-- Featured Post (Big Image) -->
-                @php
-                    $featured = $category->posts->first();
-                @endphp
-
-                @if($featured)
-                <div class="col-md-6 position-relative d-flex flex-column">
-
-                    <a href="{{ route('user.postDetails', [$featured,Str::slug($featured->title)]) }}" class="d-flex flex-column flex-grow-1 text-decoration-none w-100">
-
-                        <div class="featured-image-wrapper flex-grow-1 w-100">
-                            <img 
-                                src="{{ route('imagecache', ['template' => 'pfilg', 'filename' => $featured->fi()]) }}"
-                                class="featured-hero-img img-fluid w-100"
-                                alt="{{ Str::limit(strip_tags($featured->title), 120) }}"
-                                loading="lazy"
-                                decoding="async">
-                            <div class="image-overlay"></div>
-
-                            <div class="featured-content">
-                                <h3 class="text-white fw-bold">
-                                    {{ Str::limit($featured->title, 60) }}
-                                </h3>
-                                <p class="text-white small">
-                                    {{ Str::limit(strip_tags($featured->excerpt), 80) }} <br>
-                                    {{ optional($featured->location)->title }}
-                                </p>
-                            </div>
-                        </div>
-
-                    </a>
-
-                </div>
-                @endif
-
-
-                <!-- Other Posts -->
-                <div class="col-md-6 p-4 category-posts-list d-flex flex-column justify-content-center">
-
-                    @foreach ($category->posts->skip(1)->take(4) as $post)
-
-                    <div class="d-flex flex-column flex-md-row mb-3 small-post shadow-sm rounded-3 overflow-hidden">
-
-                        <div class="small-post__thumb flex-shrink-0">
-                            <a href="{{ route('user.postDetails', [$post,Str::slug($post->title)]) }}" class="d-block h-100">
-                                <img 
-                                    src="{{ route('imagecache', ['template' => 'pfilg', 'filename' => $post->fi()]) }}"
-                                    alt="{{ Str::limit(strip_tags($post->title), 100) }}"
-                                    loading="lazy"
-                                    decoding="async">
-                            </a>
-                        </div>
-
-                        <div class="flex-grow-1 p-3 d-flex align-items-center">
-                            <h6 class="mb-1 fw-semibold">
-                                <a href="{{ route('user.postDetails', [$post,Str::slug($post->title)]) }}"
-                                   class="text-dark text-decoration-none">
-                                   {{ Str::limit($post->title, 40) }}<br>{{optional($post->location)->title }}
-                                </a>
-                            </h6>
-                        </div>
-
-                    </div>
-
-                    @endforeach
-
-                </div>
-
-            </div>
-        </div>
-
+{{-- Masonry mosaic section removed --}}
+<section class="my-4 py-1" aria-label="Featured works">
+  <div class="container px-3 px-md-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div>
+        <h4 class="mb-0">Featured Works</h4>
+        <p class="text-muted mb-0 small">Hover to see details, click to open.</p>
+      </div>
     </div>
-</div>
 
-@endforeach
-
-</div>
-
+    <div class="home-masonry">
+      @foreach($posts as $i => $post)
+        @php
+          $heightClass = 'h-' . (($i % 5) + 1);
+          $firstCategory = optional($post->categories->first())->name;
+          $locationTitle = optional($post->location)->title;
+        @endphp
+        <div class="home-masonry__item">
+          <a class="home-masonry__card"
+             href="{{ route('user.postDetails', [$post, \Illuminate\Support\Str::slug($post->title)]) }}"
+             aria-label="{{ $post->title }}">
+            <img
+              class="home-masonry__img {{ $heightClass }}"
+              src="{{ route('imagecache', ['template' => 'pnilg', 'filename' => $post->fi()]) }}"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            >
+            <span class="home-masonry__overlay">
+              <span>
+                <span class="home-masonry__title">{{ $post->title }}</span>
+                <span class="home-masonry__meta">
+                  @if($locationTitle)
+                    <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i>{{ $locationTitle }}</span>
+                  @endif
+                  @if($firstCategory)
+                    <span><i class="fa-solid fa-tag" aria-hidden="true"></i>{{ $firstCategory }}</span>
+                  @endif
+                </span>
+              </span>
+            </span>
+          </a>
+        </div>
+      @endforeach
+    </div>
+  </div>
 </section>
-
-
 
 <section class="my-4 py-1">
        

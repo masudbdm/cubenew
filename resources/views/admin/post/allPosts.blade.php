@@ -1,6 +1,18 @@
 @extends('admin.layouts.adminMaster')
 @push('css')
-
+<style>
+    .post-reorder-handle {
+        cursor: grab;
+        user-select: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #6c757d;
+    }
+    .post-reorder-row.is-dragging {
+        background: #fff3cd !important;
+    }
+</style>
 @endpush
 @section('content')
     <div class="container-fluid">
@@ -15,6 +27,7 @@
                     <table class="table table-striped" style="white-space: nowrap">
                         <thead>
                             <tr>
+                                <th style="width: 56px;">Sort</th>
                                 <th>#ID</th>
                                 <th>Action</th>
                                 <th>Title</th>
@@ -28,9 +41,14 @@
                                 <th>Location</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="js-posts-sortable">
                             @forelse ($posts as $post)
-                                <tr>
+                                <tr class="post-reorder-row" data-post-id="{{ $post->id }}">
+                                    <td>
+                                        <span class="post-reorder-handle" title="Drag to reorder">
+                                            <i class="fas fa-grip-vertical"></i>
+                                        </span>
+                                    </td>
 
                                     <td>{{ $post->id }}</td>
                                     <td>
@@ -225,5 +243,45 @@
     </div>
 @endsection
 @push('js')
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script>
+(function () {
+    var el = document.getElementById('js-posts-sortable');
+    if (!el || typeof Sortable === 'undefined') return;
 
+    var saveTimer = null;
+    function collectIds() {
+        return Array.prototype.slice.call(el.querySelectorAll('tr[data-post-id]'))
+            .map(function (tr) { return parseInt(tr.getAttribute('data-post-id'), 10); })
+            .filter(function (v) { return !Number.isNaN(v); });
+    }
+
+    function saveOrder() {
+        var ids = collectIds();
+        if (!ids.length) return;
+
+        fetch("{{ route('admin.posts.reorder') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({ ids: ids })
+        }).catch(function () {
+            // Silent fail; admin can retry by dragging again.
+        });
+    }
+
+    new Sortable(el, {
+        animation: 150,
+        handle: ".post-reorder-handle",
+        ghostClass: "is-dragging",
+        onEnd: function () {
+            window.clearTimeout(saveTimer);
+            saveTimer = window.setTimeout(saveOrder, 150);
+        }
+    });
+})();
+</script>
 @endpush
