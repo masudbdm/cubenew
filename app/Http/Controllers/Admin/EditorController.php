@@ -112,7 +112,7 @@ class EditorController extends Controller
                 // 'excerpt' => 'max:254|required',
                 // 'feature_image' => 'image|dimensions:min_with=310,min_height=200,ratio=3/2'
                 'feature_image' => 'image|dimensions:min_with=310,min_height=200',
-                'brochure_file' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
+                'brochure_file' => 'nullable|mimes:jpg,jpeg,png,pdf,doc,docx|max:102400',
                 'number_of_bedrooms' => 'nullable|string|max:255',
                 'rajuk_approval_number' => 'nullable|string|max:255',
                 'engineer_name' => 'nullable|string|max:255',

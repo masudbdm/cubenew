@@ -469,9 +469,9 @@
 
     <div class="col-md-6">
         <div class="form-group">
-            <label for="engineer_name">Engineer Name</label>
+            <label for="engineer_name">Architect Name</label>
             <input type="text" name="engineer_name" class="form-control"
-                value="{{ old('engineer_name', $post->engineer_name) }}" placeholder="Enter Engineer Name">
+                value="{{ old('engineer_name', $post->engineer_name) }}" placeholder="Enter Architect Name">
         </div>
     </div>
 

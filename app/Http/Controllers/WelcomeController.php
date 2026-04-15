@@ -216,12 +216,14 @@ class WelcomeController extends Controller
             ->whereHas('subcategories', function ($q) use ($subcategory) {
                 $q->where('sub_categories.id', $subcategory->id);
             })
-            ->latest()
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderByDesc('updated_at')
             ->paginate(24)
             ->withQueryString();
 
         $postsForRightSidebar = Post::where('publish_status', 'published')
-            ->latest()
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderByDesc('updated_at')
             ->take(5)
             ->get();
 
@@ -260,9 +262,18 @@ class WelcomeController extends Controller
 
         $findPosts = PostCategory::where('category_id',$category->id)->pluck('post_id');
 
-        $posts = Post::find($findPosts);
+        $posts = Post::query()
+            ->where('publish_status', 'published')
+            ->whereIn('id', $findPosts)
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderByDesc('updated_at')
+            ->get();
 
-        $postsForRightSidebar = Post::where('publish_status','published')->latest()->take(5)->get();
+        $postsForRightSidebar = Post::where('publish_status', 'published')
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderByDesc('updated_at')
+            ->take(5)
+            ->get();
 
         // $allPosts = Post::latest()->take(3)->get();
 
@@ -418,7 +429,12 @@ class WelcomeController extends Controller
         // $categories = Category::orderBy('drag_id')->get();
 
         $post->load('images');
-        $posts = Post::where('publish_status','published')->where('id','<>',$post->id)->latest()->take(5)->get();
+        $posts = Post::where('publish_status', 'published')
+            ->where('id', '<>', $post->id)
+            ->orderByRaw('drag_id IS NULL, drag_id ASC')
+            ->orderByDesc('updated_at')
+            ->take(5)
+            ->get();
 
         // dd($allPosts);
 

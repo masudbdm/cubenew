@@ -188,48 +188,7 @@
                                 </li>
                             @endforeach
 
-                            <li class="nav-item dropdown dropdown-hover mx-2">
-                                <a class="nav-link ps-2 d-flex cursor-pointer align-items-center w3-text-white"
-                                   id="dropdownMenuSeo" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="material-icons opacity-6 me-2 text-md w3-text-white">public</i>
-                                    SEO
-                                    <img src="{{ asset('template/assets/img/down-arrow-white.svg') }}"
-                                         alt="down-arrow" class="arrow ms-auto ms-md-2">
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
-                                     aria-labelledby="dropdownMenuSeo">
-                                    {{-- Desktop --}}
-                                    <div class="d-none d-lg-block">
-                                        <a href="{{ route('seo.sitemap') }}"
-                                           class="dropdown-item border-radius-md text-dark font-weight-bolder">
-                                            <span>Sitemap (XML)</span>
-                                        </a>
-                                        <a href="{{ route('seo.llmsTxt') }}"
-                                           class="dropdown-item border-radius-md text-dark font-weight-bolder">
-                                            <span>LLMs.txt</span>
-                                        </a>
-                                        <a href="{{ route('seo.aiSitemap') }}"
-                                           class="dropdown-item border-radius-md text-dark font-weight-bolder">
-                                            <span>AI content map</span>
-                                        </a>
-                                    </div>
-                                    {{-- Mobile --}}
-                                    <div class="d-lg-none">
-                                        <a href="{{ route('seo.sitemap') }}"
-                                           class="dropdown-item border-radius-md text-light font-weight-bolder">
-                                            <span>Sitemap (XML)</span>
-                                        </a>
-                                        <a href="{{ route('seo.llmsTxt') }}"
-                                           class="dropdown-item border-radius-md text-light font-weight-bolder">
-                                            <span>LLMs.txt</span>
-                                        </a>
-                                        <a href="{{ route('seo.aiSitemap') }}"
-                                           class="dropdown-item border-radius-md text-light font-weight-bolder">
-                                            <span>AI content map</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
+                            {{-- SEO endpoints are discoverable via robots.txt + sitemap; keep UI clean --}}
                         </ul>
                     </div>
                 </div>

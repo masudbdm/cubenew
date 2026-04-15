@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /admin
+Disallow: /login
+Disallow: /password
+Disallow: /home
+Allow: /
+
+Sitemap: /sitemap.xml
+Sitemap: /ai-sitemap.json
+
+# For AI agents / research crawlers
+# See: /llms.txt

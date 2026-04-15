@@ -219,6 +219,7 @@ class SeoController extends Controller
     public function robots(Request $request)
     {
         $sitemap = route('seo.sitemap');
+        $aiMap = route('seo.aiSitemap');
         $body = "User-agent: *\n";
         $body .= "Disallow: /admin\n";
         $body .= "Disallow: /login\n";
@@ -226,6 +227,9 @@ class SeoController extends Controller
         $body .= "Disallow: /home\n";
         $body .= "Allow: /\n\n";
         $body .= "Sitemap: {$sitemap}\n";
+        $body .= "Sitemap: {$aiMap}\n";
+        $body .= "\n# For AI agents / research crawlers\n";
+        $body .= "# See: ".route('seo.llmsTxt')."\n";
 
         return response($body, 200)->header('Content-Type', 'text/plain; charset=UTF-8');
     }
