@@ -81,7 +81,7 @@
                                 <div class="p-3 pe-md-0">
                                     <img
                                         class="w-100 border-radius-md shadow-lg"
-                                        src="{{ $team->image ? asset('storage/'.$team->image) : asset('img/user-placeholder.png') }}"
+                                        src="{{ $team->imageUrl() }}"
                                         alt="{{ $team->name }}">
                                 </div>
                             </div>

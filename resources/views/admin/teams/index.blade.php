@@ -77,7 +77,7 @@
                         {{-- Image --}}
                         <td>
                             @if($team->image)
-                                <img src="{{ asset('storage/'.$team->image) }}"
+                                <img src="{{ $team->imageUrl() }}"
                                      width="40" height="40"
                                      class="img-circle">
                             @else

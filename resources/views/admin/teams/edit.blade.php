@@ -170,7 +170,7 @@
                     <label>Image (Square 1:1)</label><br>
 
                     @if($team->image)
-                    <img src="{{ asset('storage/'.$team->image) }}" width="80" class="mb-2">
+                    <img src="{{ $team->imageUrl() }}" width="80" class="mb-2">
                     @endif
 
                     <input type="file" name="image" class="form-control" accept="image/*"

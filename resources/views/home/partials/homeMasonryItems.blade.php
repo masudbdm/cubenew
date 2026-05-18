@@ -1,7 +1,8 @@
 @foreach($posts as $post)
   @php
     $i = ($startIndex ?? 0) + $loop->index;
-    $heightClass = 'h-' . (($i % 5) + 1);
+    $heightPattern = [1, 3, 5, 2, 4, 2, 5, 3, 1, 4, 3, 2];
+    $heightClass = 'masonry-h-' . $heightPattern[$i % count($heightPattern)];
     $firstCategory = optional($post->categories->first())->name;
     $locationTitle = optional($post->location)->title;
   @endphp

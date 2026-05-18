@@ -4,13 +4,67 @@
 <meta property="og:type" content="website">
 @endpush
 
-@section('content')
-<div class="container-fluid mt-5 mx-0">
-    <div class="row">
+@push('css')
+<style>
+.category-details-page {
+    padding-bottom: 4rem;
+}
+.category-details-page .post-card-listing {
+    border-radius: 20px;
+}
+.category-details-page .post-card-listing__media {
+    min-height: 320px;
+}
+.category-details-page .post-card-listing__img {
+    aspect-ratio: 3 / 4;
+    min-height: 320px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.category-details-page .post-card-listing .card-body {
+    padding: 1.35rem 1.5rem 1.5rem;
+}
+.category-details-page .post-card-listing .card-title {
+    font-size: 1.35rem;
+    line-height: 1.35;
+    margin-bottom: 0.65rem;
+}
+.category-details-page .post-card-listing .card-text {
+    font-size: 1rem;
+    line-height: 1.55;
+}
+.category-details-page .category-details-grid {
+    --bs-gutter-x: 2.5rem;
+    --bs-gutter-y: 2.5rem;
+}
+@media (min-width: 992px) {
+    .category-details-page .post-card-listing__media {
+        min-height: 480px;
+    }
+    .category-details-page .post-card-listing__img {
+        aspect-ratio: 3 / 4;
+        min-height: 480px;
+    }
+    .category-details-page .category-details-grid {
+        --bs-gutter-x: 4rem;
+        --bs-gutter-y: 3.5rem;
+    }
+    .category-details-page .category-details-header h3 {
+        font-size: 2rem;
+    }
+    .category-details-page {
+        padding-bottom: 5.5rem;
+    }
+}
+</style>
+@endpush
 
-        {{-- Header / Breadcrumb --}}
-        <div class="mb-4">
-            <nav class="w-100 w-md-50 w-lg-20" aria-label="breadcrumb">
+@section('content')
+<div class="container-fluid mt-5 mx-0 category-details-page">
+    <div class="row">
+        <div class="col-12 category-details-header mb-4">
+            <nav class="w-100" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{{ route('user.welcome') }}">Home</a>
@@ -25,44 +79,24 @@
                     </li>
                 </ol>
             </nav>
-
-            <h3>{{ $subcategory->name }}</h3>
+            <h3 class="mb-0">{{ $subcategory->name }}</h3>
         </div>
 
-        {{-- Main Content --}}
-        <div class="col-md-8 px-0">
-            <div class="card">
-                <div class="tab-content tab-space card-body">
-                    <div class="tab-pane active">
-
-                        <div class="row">
-                            @forelse ($posts as $post)
-                           <div class="col-md-4 col-12 w3-animate-zoom mb-3">
-    @include('home.partials.postCard')
-</div>
-                            @empty
-                                <div class="col-12">
-                                    <div class="alert alert-warning">
-                                        There is no post in this subcategory. 
-                                    </div>
-                                </div>
-                            @endforelse
-                        </div>
-
+        <div class="col-12">
+            <div class="row category-details-grid g-4 g-lg-5">
+                @forelse ($posts as $post)
+                    <div class="col-lg-6 col-12 w3-animate-zoom px-lg-4">
+                        @include('home.partials.postCard', ['excerptLimit' => 140])
                     </div>
-                </div>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-warning mb-0">
+                            No projects found in this subcategory.
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
-
-        {{-- Right Sidebar --}}
-        <div class="col-md-4 ms-auto">
-            <ul class="list-group list-group-flush">
-                @foreach ($postsForRightSidebar as $post)
-                    @include('home.partials.sidebarPostRow', ['post' => $post])
-                @endforeach
-            </ul>
-        </div>
-
     </div>
 </div>
 @endsection

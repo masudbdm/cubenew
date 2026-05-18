@@ -118,7 +118,7 @@
         </h4>
 
         <p class="card-text small">
-            {{ Str::limit($post->excerpt, 80, '...') }}
+            {{ Str::limit($post->excerpt, $excerptLimit ?? 80, '...') }}
         </p>
 
         <a href="{{ route('user.postDetails', [$post, Str::slug($post->title)]) }}"

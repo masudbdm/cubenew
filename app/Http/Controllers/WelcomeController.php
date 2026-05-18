@@ -60,7 +60,7 @@ class WelcomeController extends Controller
             ])
             ->orderByRaw('drag_id IS NULL, drag_id ASC')
             ->orderBy('id', 'desc')
-            ->paginate(32)
+            ->paginate(16)
             ->withPath(route('ajax.home.masonryPosts'));
 
         $pages = Cache::remember('home_pages', now()->addDays(7), function () {
@@ -101,9 +101,11 @@ class WelcomeController extends Controller
             ])
             ->orderByRaw('drag_id IS NULL, drag_id ASC')
             ->orderBy('id', 'desc')
-            ->paginate(32);
+            ->paginate(16);
 
-        $startIndex = ($posts->currentPage() - 1) * $posts->perPage();
+        $startIndex = $request->has('offset')
+            ? (int) $request->query('offset')
+            : ($posts->currentPage() - 1) * $posts->perPage();
 
         $html = view('home.partials.homeMasonryItems', [
             'posts' => $posts,
@@ -293,16 +295,7 @@ class WelcomeController extends Controller
             ->orderByDesc('updated_at')
             ->get();
 
-        $postsForRightSidebar = Post::where('publish_status', 'published')
-            ->orderByRaw('drag_id IS NULL, drag_id ASC')
-            ->orderByDesc('updated_at')
-            ->take(5)
-            ->get();
-
-        // $allPosts = Post::latest()->take(3)->get();
-
-        // dd($posts);
-        return view('home.categoryDetails',compact('categories','category','pages','postsForRightSidebar','posts'));
+        return view('home.categoryDetails', compact('categories', 'category', 'pages', 'posts'));
     }
 
 
@@ -321,18 +314,12 @@ class WelcomeController extends Controller
             ->latest()
             ->get();
 
-        $postsForRightSidebar = Post::where('publish_status','published')
-            ->latest()
-            ->take(5)
-            ->get();
-
         return view(
             'home.subcategoryDetails',
             compact(
                 'categories',
                 'subcategory',
                 'pages',
-                'postsForRightSidebar',
                 'posts'
             )
         );

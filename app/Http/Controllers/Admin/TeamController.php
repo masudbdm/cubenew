@@ -45,7 +45,6 @@ class TeamController extends Controller
             'age'           => 'nullable|integer',
             'gender'        => 'required|in:male,female,other',
             'bio'           => 'nullable|string',
-            'image'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'social_links'  => 'nullable|array',
             'status'        => 'nullable|boolean',
             'featured'      => 'nullable|boolean',
@@ -55,13 +54,17 @@ class TeamController extends Controller
                 'mimes:jpg,jpeg,png,webp',
                 'max:2048',
                 function ($attr, $value, $fail) {
-                    [$w, $h] = getimagesize($value);
+                    $size = @getimagesize($value->getRealPath());
+                    if ($size === false) {
+                        $fail('Invalid image file.');
+                        return;
+                    }
+                    [$w, $h] = $size;
                     if ($w !== $h) {
                         $fail('Image must be square (1:1)');
                     }
-                }
+                },
             ],
-
         ]);
 
         
@@ -78,12 +81,12 @@ class TeamController extends Controller
             $data['image'] = $request->file('image')->store('teams', 'public');
         }
 
-        $data['status']      = $request->status ?? 0;
-        $data['featured']    = $request->featured ?? 0;
+        $data['status']      = $request->boolean('status', true);
+        $data['featured']    = $request->boolean('featured', true);
         $data['addedby_id']  = Auth::id();
 
         Team::create($data);
-        Cache::flush();
+        Cache::forget('featured_teams');
 
 
         return redirect()->route('featured.index')
@@ -99,9 +102,9 @@ class TeamController extends Controller
     }
 
     // 🔹 Update
-    public function update(Request $request, Team $donor)
+    public function update(Request $request, Team $featured)
     {
-        $team = $donor;
+        $team = $featured;
 
         $slug = Str::slug($request->username);
 
@@ -134,11 +137,29 @@ class TeamController extends Controller
         ]);
 
         $data['username'] = $slug;
-        $data['status'] = $request->status ?? 0;
-        $data['featured'] = $request->featured ?? 0;
+        $data['status'] = $request->boolean('status');
+        $data['featured'] = $request->boolean('featured');
         $data['editedby_id'] = Auth::id();
 
         if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => [
+                    'image',
+                    'mimes:jpg,jpeg,png,webp',
+                    'max:2048',
+                    function ($attr, $value, $fail) {
+                        $size = @getimagesize($value->getRealPath());
+                        if ($size === false) {
+                            $fail('Invalid image file.');
+                            return;
+                        }
+                        [$w, $h] = $size;
+                        if ($w !== $h) {
+                            $fail('Image must be square (1:1)');
+                        }
+                    },
+                ],
+            ]);
             if ($team->image && Storage::disk('public')->exists($team->image)) {
                 Storage::disk('public')->delete($team->image);
             }
@@ -146,7 +167,7 @@ class TeamController extends Controller
         }
 
         $team->update($data);
-        Cache::flush();
+        Cache::forget('featured_teams');
 
         return redirect()
             ->route('featured.index')
@@ -165,7 +186,7 @@ class TeamController extends Controller
         }
 
         $team->delete();
-        Cache::flush();
+        Cache::forget('featured_teams');
 
 
         return redirect()->route('featured.index')
@@ -186,8 +207,7 @@ class TeamController extends Controller
             }
         });
 
-        Cache::flush();
-
+        Cache::forget('featured_teams');
 
         return response()->json([
             'status' => true,

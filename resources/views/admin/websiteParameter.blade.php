@@ -604,6 +604,24 @@
                                         </span>
                                         @endif
                                     </div>
+
+                                    <div class="form-group {{ $errors->has('connect_section_image') ? ' has-error' : '' }}">
+                                        <label for="connect_section_image" class="control-label">Homepage Connect Section Image</label>
+                                        <input type="file" name="connect_section_image" id="connect_section_image" class="form-control" accept="image/*">
+                                        <span class="help-block">Recommended: 1200×700 (or similar), JPG/PNG/WebP.</span>
+                                        @if ($errors->has('connect_section_image'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('connect_section_image') }}</strong>
+                                        </span>
+                                        @endif
+
+                                        @if(!empty($post->connect_section_image))
+                                            <div class="mt-2">
+                                                <img src="{{ asset($post->connectSectionImage()) }}" class="img-responsive" style="max-height:160px;">
+                                                <div class="text-muted small">Current: {{ $post->connect_section_image }}</div>
+                                            </div>
+                                        @endif
+                                    </div>
                                     {{-- <div class="form-group ">
                                         <label for="news_editions" class=" control-label">News Editions</label> <br>
                                         <?php

@@ -161,7 +161,7 @@ class SeoController extends Controller
             }
             try {
                 $url = route('team.show', $team->username);
-                $push($url, $team->updated_at ?? null, '0.55', 'monthly', $team->name, Str::limit(strip_tags($team->bio ?? ''), 200), 'team', $team->image ? asset('storage/'.$team->image) : asset($wp->logo()));
+                $push($url, $team->updated_at ?? null, '0.55', 'monthly', $team->name, Str::limit(strip_tags($team->bio ?? ''), 200), 'team', $team->image ? $team->imageUrl() : asset($wp->logo()));
             } catch (\Throwable $e) {
                 continue;
             }

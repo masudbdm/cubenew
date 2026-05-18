@@ -42,4 +42,9 @@ class WebsiteParameter extends Model
     {
        return $this->count_section_image ? 'storage/count-stats/'.$this->count_section_image : null;
     }
+
+    public function connectSectionImage()
+    {
+       return $this->connect_section_image ? 'storage/connect-section/'.$this->connect_section_image : null;
+    }
 }

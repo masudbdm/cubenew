@@ -162,12 +162,12 @@ rel="stylesheet">
     to { transform: scale(1.10); }
   }
 
-  /* Varying heights (cycles) */
-  .home-masonry__img.h-1 { height: 180px; }
-  .home-masonry__img.h-2 { height: 260px; }
-  .home-masonry__img.h-3 { height: 340px; }
-  .home-masonry__img.h-4 { height: 220px; }
-  .home-masonry__img.h-5 { height: 300px; }
+  /* Varying tile heights (mosaic) */
+  .home-masonry__img.masonry-h-1 { height: 180px; }
+  .home-masonry__img.masonry-h-2 { height: 260px; }
+  .home-masonry__img.masonry-h-3 { height: 340px; }
+  .home-masonry__img.masonry-h-4 { height: 220px; }
+  .home-masonry__img.masonry-h-5 { height: 300px; }
 
   .home-masonry__overlay{
     position:absolute;
@@ -549,6 +549,99 @@ rel="stylesheet">
 /* ==============================
    PREMIUM REVIEW CARDS
 ============================== */
+
+.connect-section{
+    --connect-accent: #b8942e;
+}
+
+.connect-title{
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #2b2b2b;
+    line-height: 1.05;
+    font-size: clamp(36px, 4vw, 56px);
+}
+
+.connect-list{
+    margin-top: 26px;
+    border-top: 1px solid rgba(0,0,0,.12);
+}
+
+.connect-item{
+    display:block;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    text-decoration:none;
+    color: inherit;
+    transition: transform .2s ease;
+}
+
+.connect-item:hover{
+    transform: translateY(-2px);
+}
+
+.connect-item-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 14px;
+}
+
+.connect-item-title{
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: #2b2b2b;
+}
+
+.connect-item-arrow{
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border: 1px solid rgba(0,0,0,.15);
+    color: var(--connect-accent);
+    transition: all .2s ease;
+    flex: 0 0 auto;
+}
+
+.connect-item:hover .connect-item-arrow{
+    border-color: rgba(184,148,46,.55);
+    background: rgba(184,148,46,.08);
+}
+
+.connect-item-desc{
+    margin: 10px 0 0;
+    max-width: 520px;
+    color: rgba(0,0,0,.7);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.connect-media{
+    border-radius: 18px;
+    overflow:hidden;
+    background: #f3f3f3;
+    box-shadow: 0 18px 45px rgba(0,0,0,.18);
+}
+
+.connect-media img{
+    width: 100%;
+    height: 100%;
+    display:block;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+}
+
+.connect-media::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
 
 .review-card{
     display:flex;
@@ -2193,102 +2286,7 @@ rel="stylesheet">
   </div>
 </section>
 
-<section class="my-4 py-1">
-       
-       <div class="row align-items-center">
-           <div class="col-12 col-md-4 ms-auto me-auto p-lg-4 mt-lg-0 mt-3">
-               <div class="rotating-card-container">
-                   <div
-                   class="card card-rotate card-background card-background-mask-primary shadow-primary mt-md-0 mt-5">
-                   <div class="front front-background"
-                   style="background-image: url(https://images.unsplash.com/photo-1569683795645-b62e50fbf103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80); background-size: cover;">
-                   <div class="card-body py-7 text-center">
-                       <i class="material-icons text-white text-4xl my-3">touch_app</i>
-                       <h3 class="text-white">Touch Here</h3>
-                       <p class="text-white opacity-8 w-100">You are welcomed to Cube holdings Ltd. We are hearing you. </p>
-                   </div>
-               </div>
-               <div class="back back-background"
-               style="background-image: url(https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80); background-size: cover;">
-               <div class="card-body pt-7 text-center">
-                   <h3 class="text-white">Cube Holdings Ltd</h3>
-                   <p class="text-white opacity-8"> A lifestyle behind the walls—  
-       where privacy, comfort, and refined living come together.
-                   </p>
-                   <a href="{{ route('wantToKnowAboutProjects') }}"
-                   class="btn btn-white btn-sm w-50 mx-auto mt-3">Want to know More</a>
-               </div>
-           </div>
-       </div>
-   </div>
-</div>
-<div class="col-12 col-md-8 mt-4 mt-md-0">
-<div class="row g-4">
-@php
-$customerLinkRaw = $websiteParameter->customer_review_link ?? '';
-$landownerLinkRaw = $websiteParameter->landowner_review_link ?? '';
-$customerHref = filled($customerLinkRaw)
-? (\Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://'])
-   ? trim($customerLinkRaw)
-   : url(trim($customerLinkRaw)))
-: route('customerReviews');
-$landownerHref = filled($landownerLinkRaw)
-? (\Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://'])
-   ? trim($landownerLinkRaw)
-   : url(trim($landownerLinkRaw)))
-: route('landownerReviews');
-$customerExternal = filled($customerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://']);
-$landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://']);
-@endphp
 
-<!-- Customer Reviews -->
-<div class="col-12">
-<div class="review-card customer-card">
-<div class="review-icon">
-   <i class="material-icons">groups</i>
-</div>
-
-<div class="review-content">
-   <h4>Customer Reviews</h4>
-   <p>
-       Hear directly from our valued clients about their experience
-       with our developments, service quality, and commitment to
-       delivering excellence.
-   </p>
-
-   <a href="{{ $customerHref }}" class="review-btn primary" @if ($customerExternal) target="_blank" rel="noopener noreferrer" @endif>
-       View Customer Reviews
-   </a>
-</div>
-</div>
-</div>
-
-<!-- Landowner Reviews -->
-<div class="col-12">
-<div class="review-card land-card">
-<div class="review-icon">
-   <i class="material-icons">handshake</i>
-</div>
-
-<div class="review-content">
-   <h4>Landowner Reviews</h4>
-   <p>
-       Discover what our land partners say about working with us —
-       from transparent agreements to successful project delivery.
-   </p>
-
-   <a href="{{ $landownerHref }}" class="review-btn secondary" @if ($landownerExternal) target="_blank" rel="noopener noreferrer" @endif>
-       View Landowner Reviews
-   </a>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-
-</section>
  
         @if($websiteParameter->front_team_show)
         @isset($featured_teams)
@@ -2343,7 +2341,7 @@ $landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::start
                                             <div class="p-3 pe-md-0">
                                                 <img
                                                 class="w-100 border-radius-md shadow-lg"
-                                                src="{{ $team->image ? asset('storage/'.$team->image) : asset('img/user-placeholder.png') }}"
+                                                src="{{ $team->imageUrl() }}"
                                                 alt="{{ $team->name }}">
                                             </div>
                                         </div>
@@ -2418,12 +2416,78 @@ $landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::start
 @endif
 
  
-                <div class="container- py-0 postion-relative z-index-2 position-relative">
+                <div class="container- pt-2 pb-2 postion-relative z-index-2 position-relative">
                     <div class="row">
                         <div class="col-md-12 mx-auto- text-center">{!! $websiteParameter->google_map_code !!}</div>
                     </div>
                 </div> 
 
+                <section class="my-4 py-1 connect-section" aria-label="Let's connect">
+  <div class="container px-3 px-md-4">
+    @php
+      $customerLinkRaw = $websiteParameter->customer_review_link ?? '';
+      $landownerLinkRaw = $websiteParameter->landowner_review_link ?? '';
+      $customerHref = filled($customerLinkRaw)
+        ? (\Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://'])
+            ? trim($customerLinkRaw)
+            : url(trim($customerLinkRaw)))
+        : route('customerReviews');
+      $landownerHref = filled($landownerLinkRaw)
+        ? (\Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://'])
+            ? trim($landownerLinkRaw)
+            : url(trim($landownerLinkRaw)))
+        : route('landownerReviews');
+      $customerExternal = filled($customerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($customerLinkRaw), ['http://', 'https://']);
+      $landownerExternal = filled($landownerLinkRaw) && \Illuminate\Support\Str::startsWith(trim($landownerLinkRaw), ['http://', 'https://']);
+
+      $connectImage = null;
+      if (isset($websiteParameter) && !empty($websiteParameter->connect_section_image) && method_exists($websiteParameter, 'connectSectionImage')) {
+        $connectImage = asset($websiteParameter->connectSectionImage());
+      }
+      $connectImage ??= 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80';
+    @endphp
+
+    <div class="row align-items-center g-4">
+      <div class="col-12 col-lg-6">
+        <div class="pe-lg-4">
+          <div class="connect-title">LET’S<br>CONNECT</div>
+
+          <div class="connect-list">
+            <a href="{{ $customerHref }}" class="connect-item" @if ($customerExternal) target="_blank" rel="noopener noreferrer" @endif>
+              <div class="connect-item-head">
+                <h3 class="connect-item-title mb-0">Clients</h3>
+                <span class="connect-item-arrow" aria-hidden="true">
+                  <i class="material-icons" style="font-size:18px;">north_east</i>
+                </span>
+              </div>
+              <p class="connect-item-desc">
+                Discover exquisite apartments, commercial spaces, and unmatched luxury — explore what our clients say about their experience.
+              </p>
+            </a>
+
+            <a href="{{ $landownerHref }}" class="connect-item" @if ($landownerExternal) target="_blank" rel="noopener noreferrer" @endif>
+              <div class="connect-item-head">
+                <h3 class="connect-item-title mb-0">Landowners</h3>
+                <span class="connect-item-arrow" aria-hidden="true">
+                  <i class="material-icons" style="font-size:18px;">north_east</i>
+                </span>
+              </div>
+              <p class="connect-item-desc">
+                Partner with us confidently — see how landowners describe our transparency, collaboration, and delivery.
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="connect-media position-relative">
+          <img src="{{ $connectImage }}" alt="Let's connect" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
  
     </div>
     @endsection
@@ -2816,7 +2880,7 @@ document.querySelectorAll('.glass-card').forEach(card => {
     }
 })();
 
-/* Homepage masonry infinite scroll (4 per page) */
+/* Homepage masonry infinite scroll */
 (function () {
     var sentinel = document.getElementById('homeMasonrySentinel');
     var grid = document.getElementById('homeMasonryGrid');
@@ -2826,6 +2890,19 @@ document.querySelectorAll('.glass-card').forEach(card => {
     var nextUrl = sentinel.getAttribute('data-next-url') || '';
     var isLoading = false;
     var ended = sentinel.getAttribute('data-end') === '1';
+    var heightPattern = [1, 3, 5, 2, 4, 2, 5, 3, 1, 4, 3, 2];
+
+    function syncMasonryTileHeights() {
+        var items = grid.querySelectorAll('.home-masonry__item');
+        items.forEach(function (item, index) {
+            var img = item.querySelector('.home-masonry__img');
+            if (!img) return;
+            for (var n = 1; n <= 5; n++) {
+                img.classList.remove('masonry-h-' + n);
+            }
+            img.classList.add('masonry-h-' + heightPattern[index % heightPattern.length]);
+        });
+    }
 
     function setLoading(on) {
         if (!loader) return;
@@ -2840,13 +2917,19 @@ document.querySelectorAll('.glass-card').forEach(card => {
         setLoading(false);
     }
 
+    function buildFetchUrl(url) {
+        var fetchUrl = new URL(url, window.location.href);
+        fetchUrl.searchParams.set('offset', String(grid.querySelectorAll('.home-masonry__item').length));
+        return fetchUrl.toString();
+    }
+
     async function loadMore() {
         if (isLoading || ended || !nextUrl) return;
         isLoading = true;
         setLoading(true);
 
         try {
-            var res = await fetch(nextUrl, {
+            var res = await fetch(buildFetchUrl(nextUrl), {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             });
             if (!res.ok) throw new Error('Request failed');
@@ -2854,6 +2937,7 @@ document.querySelectorAll('.glass-card').forEach(card => {
 
             if (data && data.html) {
                 grid.insertAdjacentHTML('beforeend', data.html);
+                syncMasonryTileHeights();
             }
 
             nextUrl = (data && data.next_page_url) ? data.next_page_url : '';
@@ -2868,6 +2952,8 @@ document.querySelectorAll('.glass-card').forEach(card => {
             setLoading(false);
         }
     }
+
+    syncMasonryTileHeights();
 
     if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {

@@ -48,6 +48,7 @@ class AdminDashboardController extends Controller
             'meta_keyword' => 'max:255',
             'featured_video'   => 'nullable|mimes:mp4,webm,mov|max:614400',
             'count_section_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:12228',
+            'connect_section_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:12228',
             'count_section_title' => 'nullable|max:255',
             'count_stat_1' => 'nullable|integer|min:0',
             'count_stat_2' => 'nullable|integer|min:0',
@@ -196,6 +197,17 @@ class AdminDashboardController extends Controller
             $name = time().'_'.$img->getClientOriginalName();
             Storage::disk('public')->put('count-stats/'.$name, File::get($img));
             $post->count_section_image = $name;
+        }
+
+        if ($request->hasFile('connect_section_image')) {
+            if ($post->connect_section_image) {
+                Storage::disk('public')->delete('connect-section/'.$post->connect_section_image);
+            }
+
+            $img = $request->file('connect_section_image');
+            $name = time().'_'.$img->getClientOriginalName();
+            Storage::disk('public')->put('connect-section/'.$name, File::get($img));
+            $post->connect_section_image = $name;
         }
 
 

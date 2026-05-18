@@ -48,7 +48,7 @@
                     {{-- Avatar --}}
                     <div class="text-center mt-n8">
                         <img class="avatar avatar-xxl shadow-xl position-relative z-index-2"
-                             src="{{ $team->image ? asset('storage/'.$team->image) : asset('img/user-placeholder.png') }}"
+                             src="{{ $team->imageUrl() }}"
                              alt="{{ $team->name }}">
                     </div>
 

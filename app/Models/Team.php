@@ -35,4 +35,19 @@ class Team extends Model
         'featured'     => 'boolean',
     ];
 
+    public function imageUrl(): string
+    {
+        if (!$this->image) {
+            return asset('img/user-placeholder.png');
+        }
+
+        $path = ltrim($this->image, '/');
+
+        if (str_starts_with($path, 'storage/')) {
+            return asset($path);
+        }
+
+        return asset('storage/' . $path);
+    }
+
 }

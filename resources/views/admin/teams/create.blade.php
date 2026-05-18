@@ -139,10 +139,11 @@
            type="checkbox"
            id="featured"
            name="featured"
-           value="1">
+           value="1"
+           checked>
 
     <label class="form-check-label" for="featured">
-        Featured
+        Featured (show on homepage)
     </label>
 </div>
 
